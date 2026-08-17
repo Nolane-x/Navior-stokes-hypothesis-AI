@@ -1,0 +1,35 @@
+name: Fresh verify W5 E12 R17 R18
+
+on:
+  push:
+    paths:
+      - 'verification/fresh_verify_e12_R17_R18.py'
+      - 'research/R17_canonical_center_bandwidth_variance_evolution.md'
+      - 'discarded/RD009_no_statewise_monotone_canonical_bandwidth_variance.md'
+      - 'discarded/RD010_sharp_amplitude_cutoff_can_create_artificial_ultraviolet_modes.md'
+      - 'research/R18_cutoff_free_full_Lamb_ultraviolet_escape.md'
+      - '.github/workflows/fresh-verify-e12-r17-r18.yml'
+  pull_request:
+    paths:
+      - 'verification/fresh_verify_e12_R17_R18.py'
+      - 'research/R17_canonical_center_bandwidth_variance_evolution.md'
+      - 'discarded/RD009_no_statewise_monotone_canonical_bandwidth_variance.md'
+      - 'discarded/RD010_sharp_amplitude_cutoff_can_create_artificial_ultraviolet_modes.md'
+      - 'research/R18_cutoff_free_full_Lamb_ultraviolet_escape.md'
+      - '.github/workflows/fresh-verify-e12-r17-r18.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fresh-physical-space:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fresh independent reconstruction
+        run: python verification/fresh_verify_e12_R17_R18.py
