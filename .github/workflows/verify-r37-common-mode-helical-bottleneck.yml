@@ -1,0 +1,26 @@
+name: Verify R37 common-mode helical bottleneck
+
+on:
+  push:
+    paths:
+      - 'research/R37_common_mode_helical_channel_bottleneck.md'
+      - 'verification/check_R37_common_mode_helical_bottleneck.py'
+      - '.github/workflows/verify-r37-common-mode-helical-bottleneck.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r37:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependency
+        run: python -m pip install --upgrade numpy
+      - name: Verify R37
+        run: python verification/check_R37_common_mode_helical_bottleneck.py
