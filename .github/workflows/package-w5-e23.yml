@@ -3,6 +3,7 @@ name: Package W5 E23 public-safe source
 on:
   push:
     paths:
+      - 'verification/W5_E23_full_suite_result.md'
       - '.github/workflows/package-w5-e23.yml'
   workflow_dispatch:
 
