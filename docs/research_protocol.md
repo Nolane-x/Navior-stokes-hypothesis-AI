@@ -6,6 +6,33 @@ Primary target is Clay statement (B): for every smooth, periodic, divergence-fre
 
 A route may switch to Clay statements (A), (C), or (D) only through an explicit representation-shift record. No statement weaker than one of the four official Clay alternatives counts as closure.
 
+### 1.1 Canonical Galilean normalization
+
+Clay statement (B) does not impose zero spatial mean. For unforced periodic Navier–Stokes, however, the spatial mean
+
+`m = integral_{T^3} u_0(x) dx`
+
+is conserved. The exact Galilean transformation
+
+`v(x,t)=u(x+m t,t)-m`,
+
+`pi(x,t)=p(x+m t,t)`
+
+produces a periodic divergence-free solution of the same equation with zero spatial mean, and the inverse transformation recovers `u`. Global smoothness is therefore equivalent in the original and zero-mean frames.
+
+The project freezes the **zero-mean Galilean frame** as the canonical frame for every diagnostic depending on velocity amplitude or direction, including
+
+- `rho=|u|`;
+- high-amplitude thresholds and tail sets;
+- iso-speed level sets and component fluxes;
+- conditional expectations modulo functions of `rho`;
+- vector-potential identities using `curl^{-1}u`;
+- amplitude commutators such as `Q(rho u)=[Q,rho]u`.
+
+These quantities are not Galilean invariant. A proof may not compute them in one frame and invoke a theorem established in another without an explicit transformation of the diagnostic itself. R21 and C001 record an exact travelling-shear falsifier showing why this discipline is load-bearing.
+
+Fourier/curl statements that require a periodic vector potential must also state the zero-mean hypothesis explicitly; the removed harmonic constant mode is not a periodic curl.
+
 ## 2. Scaling audit
 
 For viscosity normalized to `nu=1`, the Euclidean scaling is
@@ -56,7 +83,8 @@ Reject any route containing one of these unsupported jumps:
 11. assuming a self-similar singularity exhausts all possible blow-up mechanisms;
 12. invoking compactness without a topology strong enough to pass the nonlinearity;
 13. relying on hidden regularity to justify a step whose purpose is to prove regularity;
-14. post-hoc tuning of an experiment after seeing the result without recording the change.
+14. post-hoc tuning of an experiment after seeing the result without recording the change;
+15. switching Galilean frames after defining a speed/amplitude/iso-speed diagnostic without transforming that diagnostic explicitly.
 
 ## 5. Falsification-first route scoring
 
@@ -89,6 +117,8 @@ Computation may not by itself certify global regularity of the PDE. Any finite-d
 
 Primary-source baselines are preferred. A claim copied through multiple secondary sources counts as one evidence lineage. Any alleged novelty must be phrased conservatively until checked against the literature.
 
+Published conditional regularity criteria are maintained as independent challengers where useful. They do not become proof steps until their hypotheses are derived a priori for arbitrary smooth data.
+
 ## 8. Nolane World closure policy
 
 World depth is `W5`. The resident model cannot grant itself closure. The repository may use `verified-partial` for independently checked lemmas. `SOLVED` is forbidden unless:
@@ -99,4 +129,6 @@ World depth is `W5`. The resident model cannot grant itself closure. The reposit
 - the Nolane World convergence gate passes,
 - the final theorem exactly matches a Clay alternative.
 
-Until then the canonical status is `NONCONVERGED_PARTIALS_ONLY`.
+An internal World gate score is a research-governance diagnostic, **not a percentage of the Millennium problem solved**.
+
+Until every closure condition above is met, the canonical status is `NONCONVERGED_PARTIALS_ONLY`.
