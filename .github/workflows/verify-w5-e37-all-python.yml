@@ -35,3 +35,4 @@ jobs:
             count=$((count+1))
           done
           echo "PASS verification_scripts=$count"
+      # E37 final aggregate trigger after strengthening R38 shell synchronization.
