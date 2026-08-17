@@ -1,0 +1,31 @@
+name: Verify R17 RD009 spectral variance
+
+on:
+  push:
+    paths:
+      - 'research/R17_canonical_center_bandwidth_variance_evolution.md'
+      - 'discarded/RD009_no_statewise_monotone_canonical_bandwidth_variance.md'
+      - 'verification/check_R17_RD009_spectral_variance.py'
+      - '.github/workflows/verify-r17-rd009-spectral-variance.yml'
+  pull_request:
+    paths:
+      - 'research/R17_canonical_center_bandwidth_variance_evolution.md'
+      - 'discarded/RD009_no_statewise_monotone_canonical_bandwidth_variance.md'
+      - 'verification/check_R17_RD009_spectral_variance.py'
+      - '.github/workflows/verify-r17-rd009-spectral-variance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  spectral-variance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R17 centered spectral identities and RD009 exact triad
+        run: python verification/check_R17_RD009_spectral_variance.py
