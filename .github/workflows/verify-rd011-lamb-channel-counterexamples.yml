@@ -1,0 +1,29 @@
+name: Verify RD011 Lamb channel counterexamples
+
+on:
+  push:
+    paths:
+      - 'discarded/RD011_neither_Lamb_projection_channel_statewise_dominates.md'
+      - 'verification/check_RD011_exact_Lamb_channel_counterexamples.py'
+      - '.github/workflows/verify-rd011-lamb-channel-counterexamples.yml'
+  pull_request:
+    paths:
+      - 'discarded/RD011_neither_Lamb_projection_channel_statewise_dominates.md'
+      - 'verification/check_RD011_exact_Lamb_channel_counterexamples.py'
+      - '.github/workflows/verify-rd011-lamb-channel-counterexamples.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-channel-counterexamples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify exact finite-Fourier counterexamples
+        run: python verification/check_RD011_exact_Lamb_channel_counterexamples.py
