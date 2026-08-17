@@ -1,0 +1,31 @@
+name: Verify R13 RD008 frequency core
+
+on:
+  push:
+    paths:
+      - 'research/R13_finite_frequency_tail_action_is_energy_controlled.md'
+      - 'discarded/RD008_energy_alone_cannot_make_UV_tail_summable.md'
+      - 'verification/check_R13_RD008_frequency_scaling.py'
+      - '.github/workflows/verify-r13-rd008.yml'
+  pull_request:
+    paths:
+      - 'research/R13_finite_frequency_tail_action_is_energy_controlled.md'
+      - 'discarded/RD008_energy_alone_cannot_make_UV_tail_summable.md'
+      - 'verification/check_R13_RD008_frequency_scaling.py'
+      - '.github/workflows/verify-r13-rd008.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frequency-scaling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R13/RD008 frequency and scaling algebra
+        run: python verification/check_R13_RD008_frequency_scaling.py
