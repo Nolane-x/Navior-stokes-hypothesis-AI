@@ -12,26 +12,26 @@ Official problem description: https://www.claymath.org/wp-content/uploads/2022/0
 
 ## Current checkpoint
 
-Latest canonical semantic checkpoint: `checkpoints/W5-E36-SEMANTIC-LEDGER.md`.
+Latest canonical semantic checkpoint: `checkpoints/W5-E37-SEMANTIC-LEDGER.md`.
 
-The repository-wide E36 verification gate passed at GitHub Actions run `32040436862`; its job log records
+Final E37 aggregate GitHub Actions run `32043127917` passed every Python certificate on an independent Ubuntu/Python 3.12 runner:
 
 ```text
-verification_scripts=42
-PASS verification_scripts=42
+verification_scripts=45
+PASS verification_scripts=45
 ```
 
-E36 used a fresh Nolane World `0.5.0` continuation state `world_3757ca3c24da`. Its W5 convergence gate **FAILED** and retains `critical_unknowns=1`. Fresh-world process blockers such as residency/diversity are recorded rather than hidden. World metrics are research-governance diagnostics, not percentages of the Millennium Problem solved.
+E37 used a fresh real Nolane World 0.5.0 state `world_dd0ae94e7143`. Its W5 gate **FAILED** with `critical_unknowns=1` and two unresolved high-severity attack families. Fresh-state process blockers are retained rather than hidden. World metrics are research-governance diagnostics, **not percentages of the Millennium Problem solved**.
 
 ## Canonical frame
 
-For zero forcing the spatial mean is conserved. The Galilean transform
+For zero forcing the spatial mean is conserved. The exact Galilean transform
 
 ```text
 v(x,t) = u(x + m t,t) - m
 ```
 
-reduces the periodic regularity problem to the canonical zero-mean frame. Speed-based diagnostics in the current proof spine are frozen in this frame; R21/C001 record the theorem and its frame-sensitive falsifier.
+reduces the periodic regularity problem to the canonical zero-mean frame. Speed-based diagnostics in the proof spine are frozen in this frame; R21/C001 record the theorem and its frame-sensitive falsifier.
 
 ## Verified proof spine
 
@@ -45,7 +45,7 @@ G = |u|u,
 U = ||u||_(3/2),
 ```
 
-R03/R05 give
+R03/R05 give the exact complementary pressure-work representations
 
 ```text
 W_3 = <Q L,Q G> = -<P L,P G>.
@@ -55,204 +55,254 @@ R01–R08 isolate a scale-critical `L^3` pressure/Lamb obstruction. R18 proves t
 
 ### 2. Transported-speed geometry
 
-R22–R23 give
+R22–R24 show that the nonlinear test field is controlled by transported speed / longitudinal strain rather than raw Fourier complexity of `|u|`:
 
 ```text
-Q(|u|u) = Q[(curl^-1 u) × grad|u|] = [Q,|u|]u.
-```
-
-R24 identifies the projected scalar as transported speed / longitudinal strain:
-
-```text
+Q(|u|u) = [Q,|u|]u,
 q_amp = div(|u|u)
       = u·grad|u|
       = u^T S u / |u|,
 Q(|u|u) = grad Delta^-1 q_amp.
 ```
 
-RD013 shows raw Fourier complexity of `|u|` can be completely projection-null, so raw amplitude UV is not the live pressure variable.
+RD013 gives an exact smooth low-frequency state whose `|u|` has infinitely many harmonics while `Q(|u|u)=0`, so raw amplitude UV is not the live pressure variable.
 
 ### 3. Balanced Helmholtz obstruction
 
-R26 complements the Bernoulli-gradient criterion by a solenoidal critical-action criterion. R27 defines
+R26 gives a solenoidal critical-action criterion complementary to the Bernoulli-gradient route. R27 defines
 
 ```text
 A_bal
  = ∫ U min(||P L||_2^2, ||Q L||_2^2) dt
 ```
 
-and proves finite `A_bal` controls the same endpoint `L^3` barrier. A singular endpoint compatible with this proof spine therefore forces even the pointwise weaker Helmholtz channel to accumulate non-summable critical action.
+and proves finite `A_bal` controls the same endpoint `L^3` barrier.
 
-RD014 prevents a false strengthening: global P/Q balance does not imply same-shell balance.
+Thus a singular endpoint compatible with this proof spine forces even the **pointwise weaker Helmholtz Lamb channel** to accumulate non-summable critical action.
 
-### 4. R28–R29: productive UV becomes one cumulative common mode
+RD014 prevents a false strengthening: global P/Q balance does not by itself imply same-shell channel-energy overlap.
 
-R28 proves that for every fixed cutoff `K`, endpoint blow-up forces unbounded net positive high-pass pressure work in both exact representations.
+### 4. R28–R32: one productive UV mode and terminal packets
 
-R29 proves the exact mismatch identity
+R28 proves that at every fixed cutoff a singular endpoint forces unbounded net positive high-pass pressure work in both exact representations.
+
+R29 proves
 
 ```text
 W_grad,>K - W_sol,>K
-  = -<Pi_<=K L,Pi_<=K G>.
+ = -<Pi_<=K L,Pi_<=K G>.
 ```
 
-Thus the high-pass P/Q mismatch is entirely a low-frequency compensator. It is time-integrable for fixed `K`, and its integrated contribution vanishes on shrinking terminal windows. The two productive UV representations are therefore asymptotically one cumulative common mode rather than two independent singular processes.
+The mismatch is therefore a low-frequency compensator. R30 proves the balanced minority action itself diverges above every fixed cutoff. R31 extracts shrinking terminal packets with arbitrarily large productive work/balanced action and arbitrarily small integrated P/Q mismatch.
 
-### 5. R30–R32: minority-tail UV and terminal packets
-
-R30 localizes the balanced criterion above every fixed cutoff:
+R32 improves the mismatch estimate to
 
 ```text
-A_bal,>K
- = ∫ U min(
-     ||Pi_>K P L||_2^2,
-     ||Pi_>K Q L||_2^2
-   ) dt.
+|D_K| <= C N_K^(2/3) E0^2 ||omega||_2^2,
 ```
 
-A singular endpoint must satisfy `A_bal,>K(T*)=infinity` for every fixed finite `K`.
+so the integrated mismatch is controlled by the actual terminal enstrophy tail.
 
-R31 extracts synchronized terminal packets with `K_n->infinity`, shrinking time windows, arbitrarily large productive work and balanced action, and arbitrarily small integrated P/Q mismatch.
+### 5. R33–R36: smooth synchronization and its limits
 
-R32 sharpens the low-frequency compensator to approximately quadratic lattice scale:
+R33 introduces a smooth self-adjoint square partition
 
 ```text
-|D_K| <= C N_K^(2/3) E0^2 ||omega||_2^2.
+M_K^2 + H_K^2 = I
 ```
 
-The mismatch is therefore controlled by the actual terminal enstrophy tail, but no universal parabolic-scale modulus is obtained.
+and identifies the high-filter mismatch with a pure commutator. R34 proves the smooth high-filter framework is load-bearing. R35–R36 give two-sided low-leg frequency gains, forcing any individually full-strength commutator triad into a comparable high-high sector.
 
-### 6. R33–R35: smooth square partition and commutator null symbol
+RD017 proves comparable high-high interactions can remain order one. RD018 proves that generic one-leg-gain + Bernstein + Hölder + first-energy interpolation still exceeds the available enstrophy time budget.
 
-RD015 forbids treating a sharp spherical cutoff as a smooth `L^p` multiplier. R33 therefore introduces real even smooth self-adjoint filters satisfying
+### 6. E37 correction: mismatch is secondary; common production is primary
+
+E37 records a methodological correction to the E35–E36 emphasis. Small synchronization mismatch does **not** control the common productive mode through which both high-frequency works may diverge together.
+
+Define
 
 ```text
-M_K^2 + H_K^2 = I.
+J = Q-P = 2Q-I,
+C_H = (W_grad,H + W_sol,H)/2.
 ```
 
-The exact high-filter synchronization defect becomes
+R37 proves exactly
 
 ```text
-W_grad,H - W_sol,H
-  = -<[M_K^2,C_u]omega, |u|u>,
-C_u omega = omega × u.
+2 C_H = <H L,J H G>.
 ```
 
-R34 proves this smooth high-filter framework is load-bearing: a singular endpoint forces divergent balanced high-filter action and productive high-filter work at every fixed smooth scale.
-
-R35 computes the Fourier symbol
+With
 
 ```text
-T_K(p,q)
- = [a_K(p+q)-a_K(p)]
-   [omega_hat(p) × u_hat(q)]
+T = u tensor u - (|u|^2/2) I,
+L = div T,
 ```
 
-with
+one has
 
 ```text
-|a_K(p+q)-a_K(p)|
- <= min(2||a||_infinity,
-        ||grad a||_infinity |q|/K).
+C_H = -(1/2)<H T,H grad(JG)>.
 ```
 
-So low multiplying-velocity frequency is commutator-small.
-
-### 7. R36: two-sided low-leg null structure
-
-R36 adds the opposite orientation. For divergence-free nonzero modes,
+The unfiltered stress/test geometry retains the transported-speed cancellation
 
 ```text
-|omega_hat(r)| = |r| |u_hat(r)|.
+T : grad G = (3/2)|u|^2 q_amp
+             = (1/2)u·grad(|u|^3).
 ```
 
-Consequently the same triad also obeys
+The load-bearing E37 target is therefore the **common productive mode**, not further cosmetic reduction of its mismatch.
+
+### 7. R37: exact helical P/Q bottleneck inside the common mode
+
+For curl eigenmodes
 
 ```text
-|T_K(p,q)|
- <= C_a (|p|/K)
-    |u_hat(p)| |omega_hat(q)|.
+i r × u_s(r) = s |r| u_s(r),
+s ∈ {+1,-1},
 ```
 
-Therefore, for any fixed `0<eta<1`, an individual triad with either
+pair-symmetrizing the physical Lamb convolution gives
 
 ```text
-|p| <= eta K
+Lhat(k)
+ = (1/2) sum_(p+q=k) sum_(s,t)
+   (s|p|-t|q|)
+   [u_s(p) × u_t(q)].
 ```
 
-or
+This coefficient appears directly in the Parseval representation of `C_H`.
+
+For non-collinear `p,q`, let
 
 ```text
-|q| <= eta K
+a=|p|, b=|q|, c=|p+q|, mu=cos(theta).
 ```
 
-has an explicit `O(eta)` low-leg suppression in one of the two natural velocity/vorticity orientations.
+R37 derives the exact pair-channel norms.
 
-An individually full-strength commutator triad can avoid both gains only in the **comparable high-high sector**, where both velocity inputs live at the active filter scale or higher.
-
-### 8. RD017–RD018: two shortcuts are now explicitly dead
-
-RD017 gives a smooth exact comparable high-high family with a symbol gap bounded away from zero as `K` grows. Thus R36 does **not** make the entire commutator small at high scale.
-
-RD018 then audits the generic route
+Same spin:
 
 ```text
-R36 one-leg gain
-+ low-frequency Bernstein
-+ Holder
-+ first-energy/enstrophy interpolation.
+|Q F_ss| = ((a-b)^2(1-mu))/(2c),
+|P F_ss| = (|a-b| sin(theta)/2)
+           * sqrt(1+(a+b)^2/c^2).
 ```
 
-For `3/2 <= r <= 2`, this template yields
+Opposite spin:
 
 ```text
-|D_sep|
- <= C K^(2-3/r) E0^(2-3/r)
-    ||omega||_2^(2+3/r),
+|Q F_s,-s| = ((a+b)^2(1+mu))/(2c),
+|P F_s,-s| = ((a+b) sin(theta)/2)
+             * sqrt(1+(a-b)^2/c^2).
 ```
 
-where the time exponent `2+3/r` lies in `[7/2,4]`. The first energy inequality controls only `∫||omega||_2^2 dt`, so this generic summation cannot close the separated sector.
+At equal radius `a=b`,
 
-This is a route guard, not a no-go for structured paraproduct, weighted, balanced-tail, helical, or compactness arguments.
+```text
+|Q F_s,-s| = c,
+|P F_s,-s| = c sin(theta/2).
+```
 
-## Canonical E36 obstruction
+Therefore:
 
-A hypothetical singular trajectory compatible with the current proof spine must satisfy all earlier balanced/productive UV and terminal-packet constraints while overcoming the E36 narrowing:
+- same-spin equal-shell pairs vanish exactly;
+- same-spin near-equal-shell pairs are radially depleted, quadratically in the Q channel;
+- opposite-spin equal-shell pairs remain gradient-strong but become solenoidally weak near collinearity.
 
-1. separated-frequency commutator triads are individually suppressed whenever either velocity leg is below the active scale;
-2. generic first-energy Bernstein/Holder summation cannot turn those gains into spacetime integrability;
-3. comparable high-high interactions can remain full-strength;
-4. therefore any closing proof must retain structure discarded by generic energy/enstrophy bookkeeping.
+At pair level, the maximally dangerous narrow-shell balanced source is narrowed to **opposite-spin, non-collinear, active-scale interaction**, with radial dispersion providing the alternative same-spin route.
 
-The live full-strength sector is now
+The high-severity caveat remains: pairwise depletion cannot be naively summed through the nonlinear balanced minimum.
 
-> **comparable high-high smooth-commutator interactions, plus any structured accumulation of separated interactions that survives the R36 low-leg gains.**
+### 8. R38: one arbitrarily short packet synchronizes an expanding hierarchy
+
+R38 uses R32's enstrophy-tail absolute continuity plus the fact that only finitely many periodic sharp projectors occur below a finite ceiling.
+
+For arbitrary prescribed
+
+```text
+L_n -> infinity,
+epsilon_n -> 0,
+M_n -> infinity,
+delta_n -> 0,
+```
+
+it extracts terminal packets `I_n` with
+
+```text
+|I_n| <= delta_n
+```
+
+such that for **every** sharp cutoff `K<=L_n` simultaneously,
+
+```text
+A_grad^K(I_n) >= M_n,
+A_sol^K(I_n)  >= M_n,
+A_bal^K(I_n)  >= M_n,
+|A_grad^K(I_n)-A_sol^K(I_n)| <= epsilon_n.
+```
+
+Thus cumulative P/Q productive work cannot remain macroscopically separated anywhere in an expanding cutoff hierarchy.
+
+### 9. R38: every signed shell is synchronized too
+
+For `K_1<K_2<=L_n`, sharp orthogonality gives shell work as a difference of cumulative tails. Hence
+
+```text
+sup_(K1<K2<=L_n)
+|S_grad^(K1,K2)-S_sol^(K1,K2)|
+ <= 2 epsilon_n.
+```
+
+The two productive pressure-work representations therefore synchronize, up to vanishing error, on **every signed sharp annulus** in the growing hierarchy.
+
+This still does not imply shellwise positivity, total-variation control, or same-shell P/Q Lamb-energy overlap. Coherent signed cancellation remains a live high-severity escape mechanism.
+
+## Canonical E37 obstruction
+
+A hypothetical singular trajectory compatible with the proof spine must now simultaneously sustain:
+
+1. divergent common productive UV work in both Helmholtz representations;
+2. divergent balanced minority-channel action above every fixed scale;
+3. R37 spin/radial/angular restrictions on each full-strength pair source;
+4. uniform cumulative synchronization across an expanding hierarchy;
+5. uniform signed-shell synchronization across every annulus in that hierarchy;
+6. the same structure on arbitrarily short terminal packets;
+7. coherent many-triad/signed accumulation strong enough to evade all pairwise and shellwise depletion.
+
+The live mathematical object is therefore
+
+> **coherent accumulation of R37-admissible common-mode sources, compatible with R38 uniform signed-shell synchronization and divergent balanced minority action.**
 
 ## Current missing theorem
 
-The most valuable next theorem is a structure-retaining critical estimate:
+The next meaningful theorem must either
 
-> **Can the comparable high-high synchronization commutator, together with residual separated accumulation, be bounded by quantities controlled by Navier–Stokes dissipation and the balanced/productive-UV structure, strongly enough to exclude the R31/R34 terminal packets or force a known continuation criterion?**
+- derive an a-priori scale-critical spacetime bound for that coherent common-mode accumulation using `D_3`, transported-speed geometry, helicity/spin conflict and balanced-tail structure; or
+- prove a concentration-compactness/rigidity theorem excluding any terminal object that satisfies the simultaneous R37/R38 constraints.
 
-Promising interfaces are deliberately narrow:
-
-- R07 weighted `D_3` geometry rather than unweighted enstrophy powers;
-- R24 transported-speed / longitudinal-strain structure;
-- R30/R34 balanced high-pass action;
-- R14–R20 helical/high-input geometry inside comparable high-high triads;
-- concentration-compactness/rigidity of the R31 terminal packets.
+Another representation identity or generic Hölder/Bernstein estimate is not enough.
 
 **No arbitrary-data closing theorem is currently proved.**
 
 ## Verification
 
-New E36 gates:
+New E37 gates:
 
-- R36: GitHub Actions run `32040266484` — PASS;
-- RD018: run `32040402213` — PASS;
-- full E36 gate: run `32040436862` — `42/42` Python certificates PASS.
+- R37 primary: run `32042430114` — PASS;
+- strengthened R38: run `32043077881` — PASS;
+- full final E37 aggregate: run `32043127917` — `45/45` Python certificates PASS.
 
-World gate record: `verification/W5_E36_gate_result.json`. It remains failed with one mathematical critical unknown.
+Final aggregate details:
+
+```text
+R37 primary checks = 282912
+R37 fresh eigensolver checks = 70000
+R38 checks = 23701
+```
+
+World gate record: `verification/W5_E37_gate_result.json`. It remains **FAILED** with one mathematical critical unknown and two unresolved high-severity attack families.
 
 ## Research integrity
 
@@ -261,8 +311,9 @@ The repository follows `docs/research_protocol.md`. In particular:
 - finite Fourier computation never implies the continuum PDE theorem;
 - a regularity criterion is not a proof until its hypothesis is derived a priori;
 - energy/enstrophy alone is not promoted into critical control;
-- negative results and corrections remain first-class artifacts;
-- sharp multipliers are not silently assigned smooth-multiplier bounds;
+- negative results and frontier corrections remain first-class artifacts;
+- pairwise cancellation is not silently promoted to many-body cancellation;
+- signed shell synchronization is not confused with positive channel-energy overlap;
 - every load-bearing claim declares its verification scope;
 - internal World scores are never presented as percentages of the Millennium Problem solved.
 
@@ -285,7 +336,6 @@ corrections/   explicit scope/frontier corrections
 discarded/     falsified routes and exact obstructions
 experiments/   preregistered or frozen computational experiments
 verification/  exact/symbolic/independent reproduction checkers
-world/         public-safe Nolane World summaries and gates
 checkpoints/   milestone semantic ledgers
 ```
 
