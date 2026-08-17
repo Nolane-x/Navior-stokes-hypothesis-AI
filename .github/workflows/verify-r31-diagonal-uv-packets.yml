@@ -1,0 +1,24 @@
+name: Verify R31 diagonal UV packets
+
+on:
+  push:
+    paths:
+      - 'research/R31_diagonal_uv_terminal_packet_extraction.md'
+      - 'verification/check_R31_diagonal_uv_terminal_packets.py'
+      - '.github/workflows/verify-r31-diagonal-uv-packets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r31:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R31
+        run: python verification/check_R31_diagonal_uv_terminal_packets.py
