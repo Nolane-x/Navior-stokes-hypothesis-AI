@@ -1,0 +1,37 @@
+name: Verify W5 E23 all Python certificates
+
+on:
+  push:
+    paths:
+      - '.github/workflows/verify-w5-e23-all-python.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  all-python-certificates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Install verifier dependencies
+        run: python -m pip install --upgrade numpy scipy sympy mpmath
+      - name: Run every Python certificate in verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(verification/*.py)
+          echo "verification_scripts=${#files[@]}"
+          count=0
+          for f in "${files[@]}"; do
+            echo "===== RUN $f ====="
+            python "$f"
+            count=$((count+1))
+          done
+          echo "PASS verification_scripts=$count"
