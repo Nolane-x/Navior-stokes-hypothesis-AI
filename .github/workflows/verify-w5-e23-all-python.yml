@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install verifier dependencies
-        run: python -m pip install --upgrade numpy scipy sympy mpmath
+        run: python -m pip install --upgrade numpy numba sympy
       - name: Run every Python certificate in verification
         shell: bash
         run: |
@@ -29,6 +29,11 @@ jobs:
           echo "verification_scripts=${#files[@]}"
           count=0
           for f in "${files[@]}"; do
+            # Some legacy finite-dimensional challengers dynamically import
+            # Numba-jitted experiment modules with cache=True. Their on-disk
+            # cache records a dynamic module name and is intentionally removed
+            # between independent certificate processes.
+            find experiments verification -type d -name '__pycache__' -prune -exec rm -rf {} + 2>/dev/null || true
             echo "===== RUN $f ====="
             python "$f"
             count=$((count+1))
