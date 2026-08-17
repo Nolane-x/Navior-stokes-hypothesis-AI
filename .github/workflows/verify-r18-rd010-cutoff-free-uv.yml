@@ -1,0 +1,31 @@
+name: Verify R18 RD010 cutoff-free UV
+
+on:
+  push:
+    paths:
+      - 'research/R18_cutoff_free_full_Lamb_ultraviolet_escape.md'
+      - 'discarded/RD010_sharp_amplitude_cutoff_can_create_artificial_ultraviolet_modes.md'
+      - 'verification/check_R18_RD010_cutoff_free_uv.py'
+      - '.github/workflows/verify-r18-rd010-cutoff-free-uv.yml'
+  pull_request:
+    paths:
+      - 'research/R18_cutoff_free_full_Lamb_ultraviolet_escape.md'
+      - 'discarded/RD010_sharp_amplitude_cutoff_can_create_artificial_ultraviolet_modes.md'
+      - 'verification/check_R18_RD010_cutoff_free_uv.py'
+      - '.github/workflows/verify-r18-rd010-cutoff-free-uv.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cutoff-free-uv:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R18 physical UV correction and RD010 exact shear hazard
+        run: python verification/check_R18_RD010_cutoff_free_uv.py
