@@ -1,0 +1,29 @@
+name: Package W5 E23 public-safe source
+
+on:
+  push:
+    paths:
+      - '.github/workflows/package-w5-e23.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create public-safe E23 source archive
+        run: |
+          zip -qr Navior-stokes-hypothesis-AI-W5-E23.zip \
+            README.md docs research corrections discarded experiments verification checkpoints .github/workflows \
+            -x '*.sqlite3' '*credentials*' '*credential*' '*secret*' '*token*' '*trust*.json'
+          test -s Navior-stokes-hypothesis-AI-W5-E23.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Navior-stokes-hypothesis-AI-W5-E23
+          path: Navior-stokes-hypothesis-AI-W5-E23.zip
+          if-no-files-found: error
+          retention-days: 90
