@@ -1,0 +1,26 @@
+name: Verify R33 smooth square partition
+
+on:
+  push:
+    paths:
+      - 'research/R33_exact_smooth_square_partition_commutator_synchronization.md'
+      - 'verification/check_R33_smooth_square_partition_commutator.py'
+      - '.github/workflows/verify-r33-smooth-square-partition.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r33:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependency
+        run: python -m pip install --upgrade numpy
+      - name: Verify R33
+        run: python verification/check_R33_smooth_square_partition_commutator.py
