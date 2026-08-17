@@ -1,0 +1,39 @@
+name: Verify P03 expanded challenger
+
+on:
+  push:
+    paths:
+      - 'experiments/P03_preregistered_expanded_Lamb_coherence_search.md'
+      - 'experiments/run_P03_expanded_lamb_coherence.py'
+      - 'verification/P03_expanded_Lamb_coherence_result.json'
+      - 'verification/P03_high_resolution_robustness.json'
+      - 'verification/check_P03_expanded_challenger.py'
+      - 'discarded/RD002_statewise_Lamb_half_gap_falsified.md'
+      - '.github/workflows/verify-p03-expanded-challenger.yml'
+  pull_request:
+    paths:
+      - 'experiments/P03_preregistered_expanded_Lamb_coherence_search.md'
+      - 'experiments/run_P03_expanded_lamb_coherence.py'
+      - 'verification/P03_expanded_Lamb_coherence_result.json'
+      - 'verification/P03_high_resolution_robustness.json'
+      - 'verification/check_P03_expanded_challenger.py'
+      - 'discarded/RD002_statewise_Lamb_half_gap_falsified.md'
+      - '.github/workflows/verify-p03-expanded-challenger.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  provenance-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned numerical dependencies
+        run: python -m pip install --disable-pip-version-check 'numpy==2.3.5' 'numba==0.63.1'
+      - name: Verify P03 provenance and replay
+        run: python verification/check_P03_expanded_challenger.py
