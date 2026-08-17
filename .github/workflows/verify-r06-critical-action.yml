@@ -1,0 +1,29 @@
+name: Verify R06 critical action
+
+on:
+  push:
+    paths:
+      - 'research/R06_critical_Bernoulli_Lamb_action_reduction.md'
+      - 'verification/check_R06_critical_action.py'
+      - '.github/workflows/verify-r06-critical-action.yml'
+  pull_request:
+    paths:
+      - 'research/R06_critical_Bernoulli_Lamb_action_reduction.md'
+      - 'verification/check_R06_critical_action.py'
+      - '.github/workflows/verify-r06-critical-action.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  algebra-scaling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R06 constants and scaling
+        run: python verification/check_R06_critical_action.py
