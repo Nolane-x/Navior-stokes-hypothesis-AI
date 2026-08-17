@@ -1,0 +1,31 @@
+name: Verify R22 RD012 vector potential
+
+on:
+  push:
+    paths:
+      - 'research/R22_bulk_vector_potential_factorization_of_critical_pressure_work.md'
+      - 'discarded/RD012_raw_vector_potential_product_norm_loses_critical_projection_cancellation.md'
+      - 'verification/check_R22_RD012_vector_potential_factorization.py'
+      - '.github/workflows/verify-r22-rd012-vector-potential.yml'
+  pull_request:
+    paths:
+      - 'research/R22_bulk_vector_potential_factorization_of_critical_pressure_work.md'
+      - 'discarded/RD012_raw_vector_potential_product_norm_loses_critical_projection_cancellation.md'
+      - 'verification/check_R22_RD012_vector_potential_factorization.py'
+      - '.github/workflows/verify-r22-rd012-vector-potential.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  vector-potential:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R22 factorization and RD012 high-frequency no-go
+        run: python verification/check_R22_RD012_vector_potential_factorization.py
