@@ -1,0 +1,29 @@
+name: Verify R26 solenoidal action criterion
+
+on:
+  push:
+    paths:
+      - 'research/R26_complementary_solenoidal_critical_action_criterion.md'
+      - 'verification/check_R26_solenoidal_action_criterion.py'
+      - '.github/workflows/verify-r26-solenoidal-action.yml'
+  pull_request:
+    paths:
+      - 'research/R26_complementary_solenoidal_critical_action_criterion.md'
+      - 'verification/check_R26_solenoidal_action_criterion.py'
+      - '.github/workflows/verify-r26-solenoidal-action.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-core:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R26
+        run: python verification/check_R26_solenoidal_action_criterion.py
