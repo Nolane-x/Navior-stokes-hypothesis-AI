@@ -1,0 +1,24 @@
+name: Verify RD016 stress Holder-Bernstein barrier
+
+on:
+  push:
+    paths:
+      - 'discarded/RD016_generic_stress_holder_bernstein_cannot_beat_R32.md'
+      - 'verification/check_RD016_stress_holder_bernstein_barrier.py'
+      - '.github/workflows/verify-rd016-stress-barrier.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-rd016:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify RD016
+        run: python verification/check_RD016_stress_holder_bernstein_barrier.py
