@@ -1,0 +1,25 @@
+name: Verify R36 two-sided commutator null
+
+on:
+  push:
+    paths:
+      - 'research/R36_two_sided_separated_frequency_commutator_null_structure.md'
+      - 'discarded/RD017_comparable_high_high_commutator_saturation.md'
+      - 'verification/check_R36_two_sided_commutator_null.py'
+      - '.github/workflows/verify-r36-two-sided-commutator-null.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r36:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run R36 verifier
+        run: python verification/check_R36_two_sided_commutator_null.py
