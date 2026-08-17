@@ -1,0 +1,31 @@
+name: Fresh verify W5 E16 R19 RD011
+
+on:
+  push:
+    paths:
+      - 'verification/fresh_verify_e16_R19_RD011_physical_grid.py'
+      - 'research/R19_solenoidal_vs_Bernoulli_gradient_physical_UV_dichotomy.md'
+      - 'discarded/RD011_neither_Lamb_projection_channel_statewise_dominates.md'
+      - '.github/workflows/fresh-verify-e16-r19-rd011.yml'
+  pull_request:
+    paths:
+      - 'verification/fresh_verify_e16_R19_RD011_physical_grid.py'
+      - 'research/R19_solenoidal_vs_Bernoulli_gradient_physical_UV_dichotomy.md'
+      - 'discarded/RD011_neither_Lamb_projection_channel_statewise_dominates.md'
+      - '.github/workflows/fresh-verify-e16-r19-rd011.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fresh-physical-grid:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fresh physical-grid reconstruction
+        run: python verification/fresh_verify_e16_R19_RD011_physical_grid.py
