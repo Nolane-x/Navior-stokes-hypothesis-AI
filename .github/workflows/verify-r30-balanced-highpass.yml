@@ -1,0 +1,24 @@
+name: Verify R30 balanced high-pass action
+
+on:
+  push:
+    paths:
+      - 'research/R30_fixed_cutoff_balanced_highpass_action_escape.md'
+      - 'verification/check_R30_fixed_cutoff_balanced_highpass.py'
+      - '.github/workflows/verify-r30-balanced-highpass.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r30:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R30
+        run: python verification/check_R30_fixed_cutoff_balanced_highpass.py
