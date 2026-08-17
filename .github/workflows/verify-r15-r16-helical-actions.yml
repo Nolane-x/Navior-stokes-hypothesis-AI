@@ -1,0 +1,31 @@
+name: Verify R15 R16 helical actions
+
+on:
+  push:
+    paths:
+      - 'research/R15_canonical_helical_center_and_spectral_variance.md'
+      - 'research/R16_critical_spin_conflict_bandwidth_action_criterion.md'
+      - 'verification/check_R15_R16_helical_actions.py'
+      - '.github/workflows/verify-r15-r16-helical-actions.yml'
+  pull_request:
+    paths:
+      - 'research/R15_canonical_helical_center_and_spectral_variance.md'
+      - 'research/R16_critical_spin_conflict_bandwidth_action_criterion.md'
+      - 'verification/check_R15_R16_helical_actions.py'
+      - '.github/workflows/verify-r15-r16-helical-actions.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  helical-actions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R15-R16 helical structural algebra
+        run: python verification/check_R15_R16_helical_actions.py
