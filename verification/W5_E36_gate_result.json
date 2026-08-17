@@ -1,0 +1,50 @@
+{
+  "checkpoint": "W5-E36",
+  "canonical_status": "NONCONVERGED_PARTIALS_ONLY",
+  "clay_status": "NOT_SOLVED",
+  "runtime": "Nolane World 0.5.0",
+  "depth": "W5",
+  "world_id": "world_3757ca3c24da",
+  "pass_gate": false,
+  "critical_unknowns": 1,
+  "critical_unknown": "Can comparable high-high smooth-commutator interactions, together with accumulated separated interactions, be bounded in a scale-critical spacetime norm using dissipation and the balanced-tail/productive-UV structure strongly enough to exclude the terminal packets?",
+  "best_candidate": "R36 two-sided separated-frequency null theorem plus RD017/RD018 route guards; separated triads have low-leg gain, leaving comparable high-high and structure-retaining summation as the full-strength frontier.",
+  "candidate_quality": 0.89,
+  "candidate_margin": 0.23,
+  "estimated_material_improvement": 0.42,
+  "fresh_context_verifications": 2,
+  "attack_families": [
+    "high-high-saturation",
+    "generic-separated-summation"
+  ],
+  "world_reason_codes": [
+    "MIN_RESIDENCY_NOT_MET",
+    "FRAME_DIVERSITY_NOT_MET",
+    "HYPOTHESIS_DIVERSITY_NOT_MET",
+    "HYPOTHESIS_GENERATIONS_NOT_MET",
+    "ADVERSARIAL_COVERAGE_NOT_MET",
+    "CHALLENGER_SEARCH_NOT_MET",
+    "VERIFICATION_NOT_MET",
+    "COUNTERFACTUAL_COVERAGE_NOT_MET",
+    "UNKNOWN_HUNTS_NOT_MET",
+    "EXPERIMENTATION_NOT_MET",
+    "REPRESENTATION_SHIFTS_NOT_MET",
+    "FIRST_PRINCIPLES_NOT_MET",
+    "ROBUSTNESS_WORLDS_NOT_MET",
+    "SYNTHESIS_GENERATIONS_NOT_MET",
+    "CRITICAL_UNKNOWNS_REMAIN",
+    "MATERIAL_IMPROVEMENT_STILL_LIKELY",
+    "CANDIDATE_QUALITY_BELOW_THRESHOLD"
+  ],
+  "aggregate_verification": {
+    "workflow_run": 32040436862,
+    "conclusion": "success",
+    "verification_scripts": 42,
+    "pass_verification_scripts": 42
+  },
+  "individual_verification": {
+    "R36": 32040266484,
+    "RD018": 32040402213
+  },
+  "scope": "The World gate is a research-governance diagnostic. Fresh-world residency/diversity blockers are process blockers and are not evidence against the mathematical partials. The mathematical blocker remains critical_unknowns=1. No score or gate field is a percentage of the Millennium Problem solved."
+}
