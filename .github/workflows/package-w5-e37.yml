@@ -1,0 +1,54 @@
+name: Package W5 E37 public-safe source
+
+on:
+  push:
+    paths:
+      - '.github/workflows/package-w5-e37.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create public-safe E37 source archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          zip -qr Navior-stokes-hypothesis-AI-W5-E37.zip \
+            README.md docs research corrections discarded experiments verification checkpoints .github/workflows \
+            -x '*.sqlite3' '*credentials*' '*credential*' '*secret*' '*token*' '*trust*.json' '*/__pycache__/*' '*.pyc' '*.nbc' '*.nbi'
+          test -s Navior-stokes-hypothesis-AI-W5-E37.zip
+          unzip -t Navior-stokes-hypothesis-AI-W5-E37.zip >/dev/null
+          python - <<'PY'
+          import zipfile
+          p='Navior-stokes-hypothesis-AI-W5-E37.zip'
+          with zipfile.ZipFile(p) as z:
+              names=z.namelist()
+          py=[n for n in names if n.startswith('verification/') and n.endswith('.py')]
+          required=[
+              'research/R37_common_mode_helical_channel_bottleneck.md',
+              'research/R38_uniform_multicutoff_terminal_packet_synchronization.md',
+              'verification/check_R37_common_mode_helical_bottleneck.py',
+              'verification/fresh_verify_e37_common_mode_helical.py',
+              'verification/check_R38_uniform_multicutoff_packets.py',
+              'verification/W5_E37_gate_result.json',
+              'checkpoints/W5-E37-SEMANTIC-LEDGER.md',
+          ]
+          missing=[x for x in required if x not in names]
+          if missing:
+              raise SystemExit(f'missing required E37 files: {missing}')
+          print(f'zip_entries={len(names)}')
+          print(f'verification_python_scripts={len(py)}')
+          PY
+          sha256sum Navior-stokes-hypothesis-AI-W5-E37.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Navior-stokes-hypothesis-AI-W5-E37
+          path: Navior-stokes-hypothesis-AI-W5-E37.zip
+          if-no-files-found: error
+          retention-days: 90
