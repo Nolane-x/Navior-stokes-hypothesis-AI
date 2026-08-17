@@ -1,0 +1,12 @@
+{
+  "experiment": "P03-postconfirm-robustness",
+  "source_result": "verification/P03_expanded_Lamb_coherence_result.json",
+  "note": "Post-confirmation robustness only; thresholds and primary verdict were not changed.",
+  "values": [
+    {"N":64,"kappa":0.5197256482415721,"W3":0.11974652795968332,"QLamb_L2":3.327763904671772,"QG_L2":0.06923668620610504},
+    {"N":80,"kappa":0.5197248335505487,"W3":0.11974637504385005,"QLamb_L2":3.3277639046717717,"QG_L2":0.06923670632248002},
+    {"N":96,"kappa":0.5197249394119691,"W3":0.11974638009655247,"QLamb_L2":3.3277639046717717,"QG_L2":0.06923669514128013},
+    {"N":128,"kappa":0.519725873321033,"W3":0.11974654516308703,"QLamb_L2":3.3277639046717726,"QG_L2":0.06923666616843169}
+  ],
+  "conclusion": "The strict margin above 0.5 persists through N=128; this remains numerical finite-dimensional evidence, not an interval certificate."
+}
