@@ -1,0 +1,29 @@
+name: Verify R19 Lamb channel dichotomy
+
+on:
+  push:
+    paths:
+      - 'research/R19_solenoidal_vs_Bernoulli_gradient_physical_UV_dichotomy.md'
+      - 'verification/check_R19_Lamb_channel_dichotomy.py'
+      - '.github/workflows/verify-r19-lamb-channel-dichotomy.yml'
+  pull_request:
+    paths:
+      - 'research/R19_solenoidal_vs_Bernoulli_gradient_physical_UV_dichotomy.md'
+      - 'verification/check_R19_Lamb_channel_dichotomy.py'
+      - '.github/workflows/verify-r19-lamb-channel-dichotomy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  channel-dichotomy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R19 orthogonal physical-UV channel split
+        run: python verification/check_R19_Lamb_channel_dichotomy.py
