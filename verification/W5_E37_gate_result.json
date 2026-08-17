@@ -1,0 +1,55 @@
+{
+  "world_id": "world_dd0ae94e7143",
+  "runtime": "Nolane World 0.5.0 source-resident runtime",
+  "depth": "W5",
+  "evaluated_at": "2026-08-17T15:42:13.506405+00:00",
+  "pass_gate": false,
+  "canonical_status": "NONCONVERGED_PARTIALS_ONLY",
+  "clay_status": "NOT_SOLVED",
+  "metrics": {
+    "active_seconds": 0.0,
+    "anti_consensus_rounds": 4,
+    "attack_families": [
+      "coherent-multiplicity / pairwise-to-global invalid inference",
+      "signed-shell cancellation / cumulative-tail insufficiency"
+    ],
+    "candidate_margin": 0.44,
+    "candidate_quality": 0.86,
+    "challengers": 6,
+    "counterfactuals": 4,
+    "critical_unknowns": 1,
+    "distinct_hypotheses": 6,
+    "estimated_material_improvement": 0.29,
+    "experiments": 5,
+    "failure_analyses": 5,
+    "first_principles_rounds": 6,
+    "frames": 4,
+    "fresh_context_verifications": 3,
+    "hypothesis_generations": 6,
+    "representation_shifts": 5,
+    "required_active_seconds": 7200,
+    "robustness_worlds": 4,
+    "synthesis_generations": 5,
+    "unknown_hunts": 5,
+    "verifications": 6
+  },
+  "reason_codes": [
+    "MIN_RESIDENCY_NOT_MET",
+    "FRAME_DIVERSITY_NOT_MET",
+    "HYPOTHESIS_DIVERSITY_NOT_MET",
+    "ADVERSARIAL_COVERAGE_NOT_MET",
+    "COUNTERFACTUAL_COVERAGE_NOT_MET",
+    "ROBUSTNESS_WORLDS_NOT_MET",
+    "CRITICAL_UNKNOWNS_REMAIN",
+    "HIGH_SEVERITY_CONTRADICTION",
+    "MATERIAL_IMPROVEMENT_STILL_LIKELY",
+    "CANDIDATE_QUALITY_BELOW_THRESHOLD"
+  ],
+  "critical_unknown": "Can the R37 surviving common-mode sources—opposite-spin non-collinear active-scale interactions and radial-dispersive same-spin interactions—be summed in a scale-critical spacetime estimate controlled a priori by viscosity/D3/balanced action, or ruled out by rigidity of the terminal packets?",
+  "unresolved_high_severity_attacks": [
+    "Pairwise P/Q depletion cannot be naively summed through the nonlinear balanced minimum; coherent multiplicity and channel separation remain possible.",
+    "R38 synchronizes signed shell work but does not give shellwise positivity, total-variation control, or same-shell P/Q Lamb-energy overlap; coherent signed cancellation remains possible."
+  ],
+  "best_candidate": "R37 + strengthened R38: exact common-mode helical P/Q geometry plus uniform cumulative and shellwise signed-work synchronization on arbitrarily short terminal packets.",
+  "scope": "Research-governance gate only. A failed World gate is retained intentionally and no World metric is interpreted as a percentage of the Millennium problem solved."
+}
