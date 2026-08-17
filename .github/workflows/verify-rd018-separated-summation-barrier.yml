@@ -1,0 +1,24 @@
+name: Verify RD018 separated summation barrier
+
+on:
+  push:
+    paths:
+      - 'discarded/RD018_generic_separated_commutator_summation_barrier.md'
+      - 'verification/check_RD018_generic_separated_summation_barrier.py'
+      - '.github/workflows/verify-rd018-separated-summation-barrier.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-rd018:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run RD018 exponent verifier
+        run: python verification/check_RD018_generic_separated_summation_barrier.py
