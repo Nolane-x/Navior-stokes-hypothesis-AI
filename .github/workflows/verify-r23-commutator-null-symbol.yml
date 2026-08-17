@@ -1,0 +1,29 @@
+name: Verify R23 commutator null symbol
+
+on:
+  push:
+    paths:
+      - 'research/R23_Helmholtz_amplitude_commutator_and_dyadic_null_symbol.md'
+      - 'verification/check_R23_commutator_null_symbol.py'
+      - '.github/workflows/verify-r23-commutator-null-symbol.yml'
+  pull_request:
+    paths:
+      - 'research/R23_Helmholtz_amplitude_commutator_and_dyadic_null_symbol.md'
+      - 'verification/check_R23_commutator_null_symbol.py'
+      - '.github/workflows/verify-r23-commutator-null-symbol.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  commutator-null-symbol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R23 exact commutator symbol and separated-frequency gain
+        run: python verification/check_R23_commutator_null_symbol.py
