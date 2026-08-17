@@ -1,0 +1,29 @@
+name: Verify R20 high input support
+
+on:
+  push:
+    paths:
+      - 'research/R20_physical_Lamb_UV_requires_high_frequency_input.md'
+      - 'verification/check_R20_high_input_support.py'
+      - '.github/workflows/verify-r20-high-input-support.yml'
+  pull_request:
+    paths:
+      - 'research/R20_physical_Lamb_UV_requires_high_frequency_input.md'
+      - 'verification/check_R20_high_input_support.py'
+      - '.github/workflows/verify-r20-high-input-support.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  high-input-support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R20 Fourier support reduction
+        run: python verification/check_R20_high_input_support.py
