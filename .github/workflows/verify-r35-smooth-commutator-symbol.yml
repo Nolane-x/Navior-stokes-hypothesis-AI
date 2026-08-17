@@ -1,0 +1,24 @@
+name: Verify R35 smooth commutator symbol
+
+on:
+  push:
+    paths:
+      - 'research/R35_smooth_commutator_low_velocity_frequency_gain.md'
+      - 'verification/check_R35_smooth_commutator_null_symbol.py'
+      - '.github/workflows/verify-r35-smooth-commutator-symbol.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r35:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R35
+        run: python verification/check_R35_smooth_commutator_null_symbol.py
