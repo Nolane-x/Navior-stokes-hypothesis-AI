@@ -1,0 +1,64 @@
+{
+  "checkpoint": "W5-E28",
+  "canonical_status": "NONCONVERGED_PARTIALS_ONLY",
+  "clay_status": "NOT_SOLVED",
+  "historical_e23": {
+    "world_id": "world4_05c73a9403ba4574",
+    "epoch": 23,
+    "gate": "FAILED_NONCONVERGED",
+    "score": 0.8333333333333334,
+    "note": "Historical E23 runtime provenance. Its numeric gate score is not compared with the fresh continuation world."
+  },
+  "continuation_world": {
+    "world_id": "world_e3fcf95bd269",
+    "runtime": "Nolane World 0.5.0",
+    "depth": "W5",
+    "active_seconds": 720.0,
+    "required_active_seconds": 7200,
+    "pass_gate": false,
+    "critical_unknowns": 1,
+    "verifications": 7,
+    "fresh_context_verifications": 2,
+    "robustness_worlds": 10,
+    "representation_shifts": 3,
+    "failure_analyses": 2,
+    "unknown_hunts": 2,
+    "attack_families": [
+      "representation-hazard/raw-amplitude-UV",
+      "scale-synchronization/shell-separation"
+    ],
+    "candidate_quality": 0.89,
+    "candidate_margin": 0.34,
+    "estimated_material_improvement": 0.28,
+    "best_candidate": "R27 balanced-min criterion + R28 dual productive-UV escape; remaining target is dynamic cross-representation scale-time synchronization",
+    "reason_codes": [
+      "MIN_RESIDENCY_NOT_MET",
+      "FRAME_DIVERSITY_NOT_MET",
+      "HYPOTHESIS_DIVERSITY_NOT_MET",
+      "HYPOTHESIS_GENERATIONS_NOT_MET",
+      "ADVERSARIAL_COVERAGE_NOT_MET",
+      "CHALLENGER_SEARCH_NOT_MET",
+      "COUNTERFACTUAL_COVERAGE_NOT_MET",
+      "UNKNOWN_HUNTS_NOT_MET",
+      "EXPERIMENTATION_NOT_MET",
+      "REPRESENTATION_SHIFTS_NOT_MET",
+      "SYNTHESIS_GENERATIONS_NOT_MET",
+      "ANTI_CONSENSUS_NOT_MET",
+      "CRITICAL_UNKNOWNS_REMAIN",
+      "MATERIAL_IMPROVEMENT_STILL_LIKELY",
+      "CANDIDATE_QUALITY_BELOW_THRESHOLD"
+    ],
+    "critical_unknown": "Can arbitrary smooth periodic 3D Navier-Stokes trajectories sustain divergent scale-critical balanced Lamb action A_bal at a finite maximal time, together with dual productive high-output pressure-work escape, or can this mechanism be bounded/excluded a priori?"
+  },
+  "verified_ci": {
+    "R24_RD013": 32029607416,
+    "R25": 32029668632,
+    "R26": 32030235082,
+    "R27_exact": 32030583668,
+    "R27_fresh_grid": 32030790881,
+    "RD014": 32031474432,
+    "R28": 32031706755,
+    "E28_full_python_suite": 32031960379
+  },
+  "scope": "Gate and CI certify research-process and declared partial theorem/counterexample scopes only. They do not certify global Navier-Stokes regularity."
+}
