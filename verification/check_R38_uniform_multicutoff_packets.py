@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verifier for R38 uniform multi-cutoff terminal-packet extraction logic."""
+"""Verifier for R38 uniform multi-cutoff/shell terminal-packet extraction logic."""
 import math
 import random
 
@@ -94,8 +94,37 @@ def main():
             assert abs(ag-ass) <= eps
             checks += 4
 
-    print(f"PASS R38 uniform multi-cutoff packet checks={checks}")
-    print("SCOPE: lattice/extraction logic certificate only; continuum inputs are R28/R30/R32")
+    # Uniform cumulative mismatch <= eps implies every shell mismatch <= 2 eps.
+    # This is the exact algebra Delta(K1)-Delta(K2), independent of signs.
+    for _ in range(1000):
+        eps = 10**rng.uniform(-10, -2)
+        m = rng.randint(3, 80)
+        # Synthetic cumulative tails with arbitrary large common baseline and
+        # mismatch values independently filling [-eps, eps].
+        common = [10**rng.uniform(2, 5) for _ in range(m)]
+        delta = [rng.uniform(-eps, eps) for _ in range(m)]
+        agrad = [c + d/2 for c, d in zip(common, delta)]
+        asol = [c - d/2 for c, d in zip(common, delta)]
+        for _ in range(12):
+            i = rng.randrange(0, m-1)
+            j = rng.randrange(i+1, m)
+            sgrad = agrad[i]-agrad[j]
+            ssol = asol[i]-asol[j]
+            assert abs(sgrad-ssol) <= 2*eps*(1+1e-9)
+            checks += 1
+
+    # Arbitrary prescribed terminal scale: choosing a with T*-a <= delta
+    # automatically bounds every extracted I=[a,b] by delta because b<T*.
+    for _ in range(500):
+        T = rng.uniform(0.5, 3.0)
+        delta = 10**rng.uniform(-10, -1)
+        a = T - 0.8*delta
+        b = a + rng.random()*(T-a)
+        assert 0 <= b-a <= delta*(1+1e-12)
+        checks += 1
+
+    print(f"PASS R38 uniform multi-cutoff/shell packet checks={checks}")
+    print("SCOPE: lattice/extraction/shell algebra certificate only; continuum inputs are R28/R30/R32")
 
 
 if __name__ == "__main__":
