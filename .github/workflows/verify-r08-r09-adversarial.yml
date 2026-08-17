@@ -1,21 +1,25 @@
-name: Verify R08 R09 adversarial core
+name: Verify R08 R09 R10 adversarial core
 
 on:
   push:
     paths:
       - 'research/R08_intrinsic_high_amplitude_Lamb_tail_reduction.md'
       - 'research/R09_iso_speed_pressure_fluctuation_reduction.md'
+      - 'research/R10_component_flux_pressure_decomposition.md'
       - 'discarded/RD004_amplitude_A2_weight_route_fails_on_smooth_shear.md'
       - 'discarded/RD005_no_universal_iso_speed_geometry_from_incompressibility.md'
       - 'verification/check_R08_R09_RD004_RD005.py'
+      - 'verification/check_R10_component_flux.py'
       - '.github/workflows/verify-r08-r09-adversarial.yml'
   pull_request:
     paths:
       - 'research/R08_intrinsic_high_amplitude_Lamb_tail_reduction.md'
       - 'research/R09_iso_speed_pressure_fluctuation_reduction.md'
+      - 'research/R10_component_flux_pressure_decomposition.md'
       - 'discarded/RD004_amplitude_A2_weight_route_fails_on_smooth_shear.md'
       - 'discarded/RD005_no_universal_iso_speed_geometry_from_incompressibility.md'
       - 'verification/check_R08_R09_RD004_RD005.py'
+      - 'verification/check_R10_component_flux.py'
       - '.github/workflows/verify-r08-r09-adversarial.yml'
   workflow_dispatch:
 
@@ -33,3 +37,5 @@ jobs:
           python-version: '3.12'
       - name: Verify R08-R09 and RD004-RD005
         run: python verification/check_R08_R09_RD004_RD005.py
+      - name: Verify R10 component-flux algebra
+        run: python verification/check_R10_component_flux.py
