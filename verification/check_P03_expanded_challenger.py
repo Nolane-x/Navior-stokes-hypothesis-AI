@@ -70,3 +70,5 @@ print("PASS P03 frozen protocol metadata")
 print("PASS P03 winner replay at N=64 and N=96")
 print("PASS preregistered kappa_L > 1/2 falsification margin")
 print("SCOPE: P03/RD002 finite-dimensional challenger only; NOT global regularity.")
+
+# This explicit end marker also makes creation of the workflow precede its trigger commit.
