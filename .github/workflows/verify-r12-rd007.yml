@@ -1,0 +1,31 @@
+name: Verify R12 RD007 structural core
+
+on:
+  push:
+    paths:
+      - 'research/R12_Lp_test_defect_and_p4_critical_coefficient.md'
+      - 'discarded/RD007_no_statewise_tail_absorption.md'
+      - 'verification/check_R12_RD007.py'
+      - '.github/workflows/verify-r12-rd007.yml'
+  pull_request:
+    paths:
+      - 'research/R12_Lp_test_defect_and_p4_critical_coefficient.md'
+      - 'discarded/RD007_no_statewise_tail_absorption.md'
+      - 'verification/check_R12_RD007.py'
+      - '.github/workflows/verify-r12-rd007.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  coefficient-scaling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R12/RD007 coefficients and scaling
+        run: python verification/check_R12_RD007.py
