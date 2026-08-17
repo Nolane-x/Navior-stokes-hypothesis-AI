@@ -1,0 +1,24 @@
+name: Verify R34 smooth high-filter escape
+
+on:
+  push:
+    paths:
+      - 'research/R34_smooth_common_mode_balanced_high_filter_escape.md'
+      - 'verification/check_R34_smooth_highfilter_escape.py'
+      - '.github/workflows/verify-r34-smooth-highfilter-escape.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r34:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R34
+        run: python verification/check_R34_smooth_highfilter_escape.py
