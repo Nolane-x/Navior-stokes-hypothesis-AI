@@ -1,10 +1,10 @@
-# R38 — Uniform multi-cutoff terminal-packet synchronization
+# R38 — Uniform multi-cutoff and shellwise terminal-packet synchronization
 
 **Status:** `exact conditional extraction theorem / stronger than R31 single-cutoff diagonalization`  
 **Depends on:** R28, R30–R32  
 **Clay status:** no global regularity conclusion; the theorem applies under the same hypothetical singular-endpoint scenario as R28/R30
 
-R31 extracts a terminal packet synchronized at one prescribed cutoff `K_n`. R32 replaces the crude window-length mismatch estimate by an enstrophy-tail estimate
+R31 extracts a terminal packet synchronized at one prescribed cutoff `K_n`. R32 replaces the crude window-length mismatch estimate by
 
 > `int_I |D_K|dt`
 >
@@ -12,25 +12,21 @@ R31 extracts a terminal packet synchronized at one prescribed cutoff `K_n`. R32 
 
 where `D_K=W_grad,>K-W_sol,>K`.
 
-R38 spends the absolute continuity in R32 more aggressively. It proves that one may synchronize **every sharp cutoff in an entire growing finite frequency hierarchy on the same terminal packet**.
-
-This removes a substantial freedom left by R31: gradient and solenoidal productive work cannot remain macroscopically separated as cumulative tail functions throughout a prescribed expanding range of cutoffs.
+R38 spends this terminal absolute continuity globally in cutoff. It synchronizes **every sharp cutoff in an entire growing finite frequency hierarchy on the same terminal packet**, and sharp-shell orthogonality then upgrades the result to **every shell inside that hierarchy** at the level of signed integrated pressure work.
 
 ## 1. Setup
 
-Assume the same finite maximal endpoint `T*` and singular scenario used by R28/R30. For each finite cutoff `K`, write
+Assume the same finite maximal endpoint `T*` and singular scenario used by R28/R30. For finite cutoff `K`, set
 
 `A_grad^K(a,b)=int_a^b W_grad,>K dt`,
 
 `A_sol^K(a,b)=int_a^b W_sol,>K dt`,
 
-and
-
 `A_bal^K(a,b)=int_a^b U(t) min(||Pi_>K PL||_2^2,||Pi_>K QL||_2^2)dt`,
 
 with `L=omega×u`, `U=||u||_(3/2)`.
 
-R28/R30 imply that for every fixed finite `K` and every `a<T*`, all three quantities diverge to `+infinity` as `b↑T*`.
+R28/R30 imply that for every fixed finite `K` and every `a<T*`, all three quantities tend to `+infinity` as `b↑T*`.
 
 Let
 
@@ -40,15 +36,15 @@ The first energy inequality gives `q(a)->0` as `a↑T*`.
 
 ## 2. Uniform synchronization below a finite ceiling
 
-Fix a finite ceiling `L>0` and tolerance `epsilon>0`.
+Fix a finite ceiling `L` with `N_L>0` and tolerance `epsilon>0`. (If `N_L=0`, the low projector is trivial and the mismatch statement is vacuous.)
 
-For every `0<=K<=L`, monotonicity gives `N_K<=N_L`. Hence R32 yields, on every `[a,b] subset [a,T*)`,
+For every `0<=K<=L`, `N_K<=N_L`. R32 therefore gives, for every `[a,b] subset [a,T*)`,
 
 > `|A_grad^K(a,b)-A_sol^K(a,b)|`
 >
 > `<=C_1 N_L^(2/3)E0^2 q(a)`.
 
-Choose `a` so close to `T*` that
+Choose `a` sufficiently close to `T*` that
 
 > `q(a)<=epsilon/[C_1 N_L^(2/3)E0^2]`.
 
@@ -56,17 +52,17 @@ Then **simultaneously for every real sharp cutoff `K in [0,L]`** and every `b in
 
 > `|A_grad^K(a,b)-A_sol^K(a,b)|<=epsilon`.
 
-No universal rate `q(a)` as a function of `L` is assumed. The start time is allowed to depend on `L`.
+No universal decay modulus for `q(a)` is assumed; the start time may depend on `L` and `epsilon`.
 
 ## 3. One upper endpoint makes every cutoff productive
 
-Although `K` ranges continuously, the periodic sharp projector `Pi_<=K` changes only when `K` crosses one of the finitely many radii
+Although `K` is continuous, on the periodic lattice `Pi_<=K` changes only when `K` crosses one of the finitely many radii
 
 `{|k|: k in Z^3, |k|<=L}`.
 
 Thus only finitely many distinct high-pass projectors occur below finite `L`.
 
-For each distinct projector, R28/R30 give terminal divergence of `A_grad^K`, `A_sol^K`, and `A_bal^K`. Given `M>0`, choose for each cutoff class an upper time at which all three exceed `M`. The maximum of these finitely many times remains below `T*` and gives one common `b` such that, **for every `K<=L` simultaneously**,
+For each distinct projector, R28/R30 give terminal divergence of `A_grad^K`, `A_sol^K`, and `A_bal^K`. Given `M>0`, take for each cutoff class a time beyond which all three exceed `M`; the maximum of these finitely many thresholds is still below `T*`. Hence one common `b<T*` satisfies, **for every `K<=L` simultaneously**,
 
 > `A_grad^K(a,b)>=M`,
 >
@@ -74,23 +70,29 @@ For each distinct projector, R28/R30 give terminal divergence of `A_grad^K`, `A_
 >
 > `A_bal^K(a,b)>=M`.
 
-The uniform mismatch bound from Section 2 remains valid on the same interval.
+The Section 2 mismatch estimate remains valid on the same interval.
 
-## 4. Growing-hierarchy extraction theorem
+## 4. Growing-hierarchy theorem with arbitrary terminal-window scale
 
 Let arbitrary prescribed sequences satisfy
 
-`L_n->infinity`, `epsilon_n->0`, `M_n->infinity`.
+`L_n->infinity`,
 
-Choose `a_n<T*` so that
+`epsilon_n->0`,
 
-> `T*-a_n<=1/n`
+`M_n->infinity`,
+
+`delta_n->0`, `delta_n>0`.
+
+Choose `a_n<T*` so close to `T*` that
+
+> `T*-a_n<=delta_n`
 
 and
 
 > `q(a_n)<=epsilon_n/[C_1 N_{L_n}^(2/3)E0^2]`.
 
-Section 3 then supplies `b_n in (a_n,T*)` such that, for `I_n=[a_n,b_n]`, **every sharp cutoff `K<=L_n` simultaneously satisfies**
+Section 3 supplies `b_n in (a_n,T*)` such that, for `I_n=[a_n,b_n]`, **every sharp cutoff `K<=L_n` simultaneously satisfies**
 
 > `A_grad^K(I_n)>=M_n`,
 >
@@ -102,40 +104,74 @@ and
 
 > `|A_grad^K(I_n)-A_sol^K(I_n)|<=epsilon_n`.
 
-Moreover `|I_n|<=1/n->0` and `L_n->infinity`.
+Moreover
 
-Thus one terminal sequence synchronizes the two productive representations and the balanced minority action not at one moving cutoff, but across an **entire expanding cumulative frequency hierarchy**.
+> `|I_n|<=delta_n->0`.
 
-## 5. Cumulative-distribution interpretation
+Thus the frequency ceiling and terminal-window scale may be prescribed independently. This does **not** localize the active spectrum near `L_n`; it says that all cumulative tails beginning below `L_n` remain large and synchronized on the same arbitrarily short terminal packet.
 
-For a packet `I`, regard `K -> A_grad^K(I)` and `K -> A_sol^K(I)` as signed cumulative high-frequency work tails. R38 gives
+## 5. Shellwise signed-work synchronization
 
-> `sup_(0<=K<=L_n)|A_grad^K(I_n)-A_sol^K(I_n)|<=epsilon_n`,
+The sharp projectors are orthogonal. For `0<=K_1<K_2<=L_n`, define the integrated shell works on `I_n`
 
-while both tails are at least `M_n` throughout the same range.
+`S_grad^(K1,K2)=A_grad^K1(I_n)-A_grad^K2(I_n)`,
 
-Hence the cumulative productive-work distributions become uniformly indistinguishable over every prescribed finite frequency range, and the synchronized range may tend to infinity.
+`S_sol^(K1,K2)=A_sol^K1(I_n)-A_sol^K2(I_n)`.
 
-## 6. What R38 rules out and what it does not
+These are exactly the signed productive pressure works carried by Fourier modes in the shell `K_1<|k|<=K_2` for the gradient and solenoidal representations, respectively.
 
-R38 rules out a simple cumulative frequency-separation scenario: on `I_n`, one representation cannot have lost a macroscopically large amount of net high-frequency productive work below some `K<=L_n` while the other has not, because their tails differ by at most `epsilon_n` at every such cutoff.
+Let
 
-Shellwise work is signed, however. Uniform closeness of cumulative signed tails does **not** imply positivity of each shell, same-shell P/Q overlap, closeness of total-variation measures, spatial concentration, a parabolic relation between `L_n` and `|I_n|`, or a compact nontrivial rescaled limit. RD014 is therefore not contradicted.
+`Delta_n(K)=A_grad^K(I_n)-A_sol^K(I_n)`.
+
+Then
+
+> `S_grad^(K1,K2)-S_sol^(K1,K2)`
+>
+> `=Delta_n(K_1)-Delta_n(K_2)`.
+
+Since `sup_(K<=L_n)|Delta_n(K)|<=epsilon_n`, R38 obtains the uniform shell corollary
+
+> `sup_(0<=K1<K2<=L_n)`
+>
+> `|S_grad^(K1,K2)-S_sol^(K1,K2)|`
+>
+> `<=2epsilon_n`.
+
+Thus the two productive representations synchronize not only as cumulative tails but on **every sharp annulus inside the expanding hierarchy**, at the level of signed time-integrated work.
+
+This is stronger than R31/R32 single-cutoff synchronization.
+
+## 6. What the theorem rules out — and what survives
+
+R38 rules out macroscopic separation of the two pressure-work representations both cumulatively and on any fixed signed shell inside the extracted hierarchy.
+
+It still does **not** prove:
+
+- positivity of each shell work;
+- same-shell overlap of the P/Q **Lamb energies** or of the balanced minimum;
+- total-variation closeness of the two signed work measures;
+- absence of cancellation among positive and negative sub-shell contributions;
+- spatial concentration;
+- spectral localization near `L_n`;
+- a nontrivial compact rescaled limit.
+
+Therefore RD014 is not contradicted: its obstruction concerns channel energy overlap, whereas R38 controls signed integrated pressure-work representations.
 
 ## 7. Interface with R37
 
-R37 narrows an individual full-strength balanced Lamb source to opposite-spin/non-collinear activity or radial dispersion. R38 simultaneously narrows the **scale organization** of a hypothetical terminal packet: both productive Helmholtz representations must agree cumulatively across an expanding hierarchy.
+R37 narrows an individual full-strength balanced Lamb source to opposite-spin/non-collinear activity or substantial radial dispersion. R38 narrows the **scale organization** of a hypothetical terminal packet: the gradient and solenoidal productive works must agree, up to vanishing error, on every cumulative cutoff and every signed shell in an expanding hierarchy.
 
-A future rigidity theorem can therefore target a more constrained object:
+A future rigidity theorem can therefore target a much more constrained object:
 
-> a terminal packet that maintains R37 spin/radial/angular conflict while its gradient and solenoidal productive-work tails are uniformly synchronized over all cumulative cutoffs in an expanding range.
+> a terminal packet maintaining R37 spin/radial/angular conflict while its two productive pressure-work representations remain uniformly shell-synchronized throughout an expanding frequency hierarchy.
 
-The remaining obstacle is coherent signed accumulation compatible with both R37 pair geometry and the R38 hierarchy.
+The live obstruction is coherent signed accumulation compatible with both R37 pair geometry and R38 shell synchronization.
 
 ## 8. Verification
 
-`verification/check_R38_uniform_multicutoff_packets.py` verifies the finite-lattice threshold property, monotonic `N_K` domination, tolerance selection, and finite-family common-endpoint extraction logic over large synthetic cutoff families.
+`verification/check_R38_uniform_multicutoff_packets.py` verifies finite lattice-threshold classes, monotonic `N_K` domination, uniform tolerance selection, finite-family common-endpoint extraction, arbitrary terminal-window scales, and the shell-difference consequence of a uniformly small cumulative mismatch.
 
-The analytic theorem follows from R28/R30 terminal divergence, R32's enstrophy-tail estimate, finiteness of periodic lattice modes below a finite radius, and absolute continuity of the enstrophy integral.
+The analytic theorem uses only R28/R30 terminal divergence, R32's enstrophy-tail estimate, orthogonality of sharp periodic Fourier shells, finiteness of lattice modes below finite radius, and absolute continuity of the enstrophy integral.
 
 **R38 is a stronger necessary-structure theorem for a hypothetical singular endpoint, not a global-regularity proof.**
