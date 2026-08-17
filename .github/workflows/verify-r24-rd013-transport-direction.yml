@@ -1,0 +1,31 @@
+name: Verify R24 RD013 transported speed direction
+
+on:
+  push:
+    paths:
+      - 'research/R24_streamline_speed_direction_strain_factorization.md'
+      - 'discarded/RD013_raw_amplitude_UV_does_not_imply_pressure_test_UV.md'
+      - 'verification/check_R24_RD013_transport_direction.py'
+      - '.github/workflows/verify-r24-rd013-transport-direction.yml'
+  pull_request:
+    paths:
+      - 'research/R24_streamline_speed_direction_strain_factorization.md'
+      - 'discarded/RD013_raw_amplitude_UV_does_not_imply_pressure_test_UV.md'
+      - 'verification/check_R24_RD013_transport_direction.py'
+      - '.github/workflows/verify-r24-rd013-transport-direction.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-core:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R24 and RD013
+        run: python verification/check_R24_RD013_transport_direction.py
