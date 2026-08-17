@@ -42,10 +42,11 @@ def proj_p(k, v):
 def test_helical():
     rng = random.Random(37037)
     checks = 0
-    for _ in range(6000):
+    max_formula_error = 0.0
+    for _ in range(10000):
         while True:
-            p = np.array([rng.randint(-7, 7) for _ in range(3)], float)
-            q = np.array([rng.randint(-7, 7) for _ in range(3)], float)
+            p = np.array([rng.randint(-9, 9) for _ in range(3)], float)
+            q = np.array([rng.randint(-9, 9) for _ in range(3)], float)
             k = p + q
             if norm(p) > 0 and norm(q) > 0 and norm(k) > 0 and norm(np.cross(p, q)) > 1e-8:
                 break
@@ -60,16 +61,29 @@ def test_helical():
                 x = np.cross(hp, hq)
                 x_formula = 0.5j * (t * qh - s * ph) - 0.5 * s * t * sint * n
                 assert norm(x - x_formula) < TOL
+
                 direct = np.cross(s * a * hp, hq) + np.cross(t * b * hq, hp)
                 f = (s * a - t * b) * x
                 assert norm(direct - f) < TOL
+
                 qscalar = (t * (b + a * mu) - s * (a + b * mu)) / c
                 qx_formula = 0.5j * qscalar * kh
                 assert norm(proj_q(k, x) - qx_formula) < TOL
+
+                qn = norm(proj_q(k, f))
+                pn = norm(proj_p(k, f))
                 if s == t:
-                    qf_formula = -0.5j * ((a - b) ** 2) * (1 - mu) / c * kh
-                    assert norm(proj_q(k, f) - qf_formula) < 1e-9
-                checks += 5
+                    q_expected = ((a - b) ** 2) * (1 - mu) / (2 * c)
+                    p_expected = abs(a - b) * sint * 0.5 * math.sqrt(1 + (a + b) ** 2 / c**2)
+                    qf_vector = -0.5j * ((a - b) ** 2) * (1 - mu) / c * kh
+                    assert norm(proj_q(k, f) - qf_vector) < 1e-9
+                else:
+                    q_expected = ((a + b) ** 2) * (1 + mu) / (2 * c)
+                    p_expected = (a + b) * sint * 0.5 * math.sqrt(1 + (a - b) ** 2 / c**2)
+                err = max(abs(qn - q_expected), abs(pn - p_expected))
+                max_formula_error = max(max_formula_error, err)
+                assert err < 2e-10
+                checks += 7
 
     candidates = []
     vectors = []
@@ -122,6 +136,8 @@ def test_helical():
             f = (s * a - s * b) * np.cross(hp, hq)
             assert norm(f) < 1e-12
             checks += 1
+
+    print(f"R37 helical max_formula_error={max_formula_error:.3e}")
     return checks
 
 
@@ -181,7 +197,7 @@ def test_common_mode():
 
         hql, hqg = filt(qlh, h), filt(qgh, h)
         hpl, hpg = filt(plh, h), filt(pgh, h)
-        hl, hg = filt(lh, h), filt(gh, h)
+        hl = filt(lh, h)
         w_grad = inner_vec(hql, hqg)
         w_sol = -inner_vec(hpl, hpg)
         jhg = hqg - hpg
