@@ -1,0 +1,29 @@
+name: Verify P05 R19 robustness worlds
+
+on:
+  push:
+    paths:
+      - 'experiments/P05_R19_two_channel_robustness_worlds.md'
+      - 'verification/check_P05_R19_robustness_worlds.py'
+      - '.github/workflows/verify-p05-r19-robustness-worlds.yml'
+  pull_request:
+    paths:
+      - 'experiments/P05_R19_two_channel_robustness_worlds.md'
+      - 'verification/check_P05_R19_robustness_worlds.py'
+      - '.github/workflows/verify-p05-r19-robustness-worlds.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  robustness-worlds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify P05 ten structural stress worlds
+        run: python verification/check_P05_R19_robustness_worlds.py
