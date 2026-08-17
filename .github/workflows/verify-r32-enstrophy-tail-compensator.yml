@@ -1,0 +1,24 @@
+name: Verify R32 enstrophy-tail compensator
+
+on:
+  push:
+    paths:
+      - 'research/R32_enstrophy_tail_low_compensator_improvement.md'
+      - 'verification/check_R32_enstrophy_tail_compensator.py'
+      - '.github/workflows/verify-r32-enstrophy-tail-compensator.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r32:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R32
+        run: python verification/check_R32_enstrophy_tail_compensator.py
