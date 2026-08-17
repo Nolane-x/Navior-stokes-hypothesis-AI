@@ -1,0 +1,24 @@
+name: Verify R38 uniform multi-cutoff packets
+
+on:
+  push:
+    paths:
+      - 'research/R38_uniform_multicutoff_terminal_packet_synchronization.md'
+      - 'verification/check_R38_uniform_multicutoff_packets.py'
+      - '.github/workflows/verify-r38-uniform-multicutoff-packets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r38:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R38
+        run: python verification/check_R38_uniform_multicutoff_packets.py
