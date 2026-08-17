@@ -1,0 +1,31 @@
+name: Verify R21 componentwise flux cancellation
+
+on:
+  push:
+    paths:
+      - 'research/R21_galilean_normalized_componentwise_iso_speed_flux_cancellation.md'
+      - 'corrections/C001_R10_intercomponent_flux_obstruction_removed_in_zero_mean_frame.md'
+      - 'verification/check_R21_componentwise_flux_cancellation.py'
+      - '.github/workflows/verify-r21-componentwise-flux.yml'
+  pull_request:
+    paths:
+      - 'research/R21_galilean_normalized_componentwise_iso_speed_flux_cancellation.md'
+      - 'corrections/C001_R10_intercomponent_flux_obstruction_removed_in_zero_mean_frame.md'
+      - 'verification/check_R21_componentwise_flux_cancellation.py'
+      - '.github/workflows/verify-r21-componentwise-flux.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  componentwise-flux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify R21 vector-potential and Galilean scope
+        run: python verification/check_R21_componentwise_flux_cancellation.py
