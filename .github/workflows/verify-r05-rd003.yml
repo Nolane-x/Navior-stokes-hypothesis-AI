@@ -1,0 +1,33 @@
+name: Verify R05 RD003 structural core
+
+on:
+  push:
+    paths:
+      - 'research/R05_Lp_Lamb_Leray_complementarity.md'
+      - 'discarded/RD003_no_generic_quadratic_convective_Lyapunov.md'
+      - 'verification/check_R05_RD003_structural.py'
+      - '.github/workflows/verify-r05-rd003.yml'
+  pull_request:
+    paths:
+      - 'research/R05_Lp_Lamb_Leray_complementarity.md'
+      - 'discarded/RD003_no_generic_quadratic_convective_Lyapunov.md'
+      - 'verification/check_R05_RD003_structural.py'
+      - '.github/workflows/verify-r05-rd003.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  structural-algebra:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned numerical dependency
+        run: python -m pip install --disable-pip-version-check 'numpy==2.3.5'
+      - name: Verify R05/RD003 structural algebra
+        run: python verification/check_R05_RD003_structural.py
