@@ -1,0 +1,22 @@
+{
+  "world_id": "world4_05c73a9403ba4574",
+  "runtime": "Nolane World 0.5.0",
+  "depth": "W5",
+  "accepted_epoch": 23,
+  "audit": {
+    "valid": true,
+    "events": 50,
+    "digest": "357c8d7a85b1a00c657c9583dcccfe088888a5ed53d91462e7e18a4861d57b36"
+  },
+  "convergence_gate": {
+    "passed": false,
+    "score": 0.8333333333333334,
+    "blockers": [
+      "critical_unknowns unresolved",
+      "material value-of-thought remains"
+    ]
+  },
+  "canonical_status": "NONCONVERGED_PARTIALS_ONLY",
+  "clay_status": "NOT_SOLVED",
+  "scope_note": "The internal W5 gate score is a research-governance diagnostic, not a percentage of the Navier-Stokes Millennium problem solved."
+}
