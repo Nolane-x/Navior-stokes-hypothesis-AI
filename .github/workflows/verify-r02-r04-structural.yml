@@ -1,0 +1,44 @@
+name: Verify R02-R04 structural core
+
+on:
+  push:
+    paths:
+      - 'research/R02_Helmholtz_defect_factorization.md'
+      - 'research/R03_Bernoulli_Lamb_defect_factorization.md'
+      - 'research/R04_orthogonal_Helmholtz_half_bound.md'
+      - 'experiments/P01_preregistered_Helmholtz_coherence_search.md'
+      - 'experiments/P02_preregistered_Lamb_coherence_search.md'
+      - 'experiments/run_P01_helmholtz_coherence.py'
+      - 'experiments/run_P02_lamb_coherence.py'
+      - 'verification/P01_Helmholtz_coherence_result.json'
+      - 'verification/P02_Lamb_coherence_result.json'
+      - 'verification/check_R02_R04_structural.py'
+      - '.github/workflows/verify-r02-r04-structural.yml'
+  pull_request:
+    paths:
+      - 'research/R02_Helmholtz_defect_factorization.md'
+      - 'research/R03_Bernoulli_Lamb_defect_factorization.md'
+      - 'research/R04_orthogonal_Helmholtz_half_bound.md'
+      - 'experiments/**'
+      - 'verification/P01_Helmholtz_coherence_result.json'
+      - 'verification/P02_Lamb_coherence_result.json'
+      - 'verification/check_R02_R04_structural.py'
+      - '.github/workflows/verify-r02-r04-structural.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fresh-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned numerical dependencies
+        run: python -m pip install --disable-pip-version-check 'numpy==2.3.5' 'numba==0.63.1'
+      - name: Replay structural certificates
+        run: python verification/check_R02_R04_structural.py
