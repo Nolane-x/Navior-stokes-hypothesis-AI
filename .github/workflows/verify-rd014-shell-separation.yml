@@ -1,0 +1,29 @@
+name: Verify RD014 shell separation
+
+on:
+  push:
+    paths:
+      - 'discarded/RD014_global_channel_balance_does_not_imply_shellwise_balance.md'
+      - 'verification/check_RD014_exact_shell_separation.py'
+      - '.github/workflows/verify-rd014-shell-separation.yml'
+  pull_request:
+    paths:
+      - 'discarded/RD014_global_channel_balance_does_not_imply_shellwise_balance.md'
+      - 'verification/check_RD014_exact_shell_separation.py'
+      - '.github/workflows/verify-rd014-shell-separation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-core:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify RD014
+        run: python verification/check_RD014_exact_shell_separation.py
