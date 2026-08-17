@@ -1,4 +1,4 @@
-name: Verify P04 Navier-Stokes tangent challenger
+name: Verify P04 R11 Navier-Stokes tangent chain
 
 on:
   push:
@@ -8,6 +8,8 @@ on:
       - 'verification/P04_NS_tangent_Lamb_coherence_result.json'
       - 'verification/check_P04_NS_tangent.py'
       - 'discarded/RD006_simple_local_Lamb_coherence_repulsion_falsified.md'
+      - 'research/R11_scale_covariance_of_degree_zero_diagnostics.md'
+      - 'verification/check_R11_scaling.py'
       - '.github/workflows/verify-p04-ns-tangent.yml'
   pull_request:
     paths:
@@ -16,6 +18,8 @@ on:
       - 'verification/P04_NS_tangent_Lamb_coherence_result.json'
       - 'verification/check_P04_NS_tangent.py'
       - 'discarded/RD006_simple_local_Lamb_coherence_repulsion_falsified.md'
+      - 'research/R11_scale_covariance_of_degree_zero_diagnostics.md'
+      - 'verification/check_R11_scaling.py'
       - '.github/workflows/verify-p04-ns-tangent.yml'
   workflow_dispatch:
 
@@ -35,3 +39,5 @@ jobs:
         run: python -m pip install --disable-pip-version-check 'numpy==2.3.5'
       - name: Replay P04 tangent challenger
         run: python verification/check_P04_NS_tangent.py
+      - name: Verify R11 scaling homogeneity
+        run: python verification/check_R11_scaling.py
