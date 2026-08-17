@@ -1,0 +1,26 @@
+name: Verify R29 cutoffwise synchronization
+
+on:
+  push:
+    paths:
+      - 'research/R29_cutoffwise_cumulative_cross_representation_synchronization.md'
+      - 'verification/check_R29_cutoffwise_cumulative_synchronization.py'
+      - '.github/workflows/verify-r29-cutoffwise-synchronization.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r29:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependency
+        run: python -m pip install --upgrade numpy
+      - name: Verify R29
+        run: python verification/check_R29_cutoffwise_cumulative_synchronization.py
