@@ -1,0 +1,37 @@
+name: Verify P04 Navier-Stokes tangent challenger
+
+on:
+  push:
+    paths:
+      - 'experiments/P04_preregistered_NS_tangent_Lamb_coherence.md'
+      - 'experiments/run_P04_NS_tangent_Lamb_coherence.py'
+      - 'verification/P04_NS_tangent_Lamb_coherence_result.json'
+      - 'verification/check_P04_NS_tangent.py'
+      - 'discarded/RD006_simple_local_Lamb_coherence_repulsion_falsified.md'
+      - '.github/workflows/verify-p04-ns-tangent.yml'
+  pull_request:
+    paths:
+      - 'experiments/P04_preregistered_NS_tangent_Lamb_coherence.md'
+      - 'experiments/run_P04_NS_tangent_Lamb_coherence.py'
+      - 'verification/P04_NS_tangent_Lamb_coherence_result.json'
+      - 'verification/check_P04_NS_tangent.py'
+      - 'discarded/RD006_simple_local_Lamb_coherence_repulsion_falsified.md'
+      - '.github/workflows/verify-p04-ns-tangent.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tangent-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned numerical dependency
+        run: python -m pip install --disable-pip-version-check 'numpy==2.3.5'
+      - name: Replay P04 tangent challenger
+        run: python verification/check_P04_NS_tangent.py
