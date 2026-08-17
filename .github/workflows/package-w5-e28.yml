@@ -1,0 +1,33 @@
+name: Package W5 E28 public-safe source
+
+on:
+  push:
+    paths:
+      - '.github/workflows/package-w5-e28.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create public-safe E28 source archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          zip -qr Navior-stokes-hypothesis-AI-W5-E28.zip \
+            README.md docs research corrections discarded experiments verification checkpoints .github/workflows \
+            -x '*.sqlite3' '*credentials*' '*credential*' '*secret*' '*token*' '*trust*.json' '*/__pycache__/*' '*.pyc' '*.nbc' '*.nbi'
+          test -s Navior-stokes-hypothesis-AI-W5-E28.zip
+          unzip -t Navior-stokes-hypothesis-AI-W5-E28.zip >/dev/null
+          sha256sum Navior-stokes-hypothesis-AI-W5-E28.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Navior-stokes-hypothesis-AI-W5-E28
+          path: Navior-stokes-hypothesis-AI-W5-E28.zip
+          if-no-files-found: error
+          retention-days: 90
