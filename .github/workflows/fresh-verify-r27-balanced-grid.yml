@@ -1,0 +1,29 @@
+name: Fresh verify R27 balanced physical grid
+
+on:
+  push:
+    paths:
+      - 'verification/fresh_verify_e27_balanced_channels_grid.py'
+      - '.github/workflows/fresh-verify-r27-balanced-grid.yml'
+  pull_request:
+    paths:
+      - 'verification/fresh_verify_e27_balanced_channels_grid.py'
+      - '.github/workflows/fresh-verify-r27-balanced-grid.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fresh-grid:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install numpy
+        run: python -m pip install --upgrade numpy
+      - name: Fresh reconstruct R27
+        run: python verification/fresh_verify_e27_balanced_channels_grid.py
