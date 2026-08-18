@@ -1,0 +1,29 @@
+name: Verify R42 spectral multiplicity explosion
+
+on:
+  push:
+    paths:
+      - 'research/R42_unit_burst_spectral_multiplicity_explosion.md'
+      - 'verification/check_R42_spectral_multiplicity_explosion.py'
+      - 'verification/fresh_verify_e42_R42_exact_multiplicity.py'
+      - '.github/workflows/verify-r42-spectral-multiplicity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r42:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependency
+        run: python -m pip install --upgrade numpy
+      - name: Verify R42 primary
+        run: python verification/check_R42_spectral_multiplicity_explosion.py
+      - name: Verify R42 fresh exact context
+        run: python verification/fresh_verify_e42_R42_exact_multiplicity.py
