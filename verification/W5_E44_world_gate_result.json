@@ -1,0 +1,50 @@
+{
+  "checkpoint": "W5-E44",
+  "runtime": "Nolane World 0.6.0",
+  "world_id": "world4_07282ed4e1fb4049",
+  "depth": "W5",
+  "epoch": 9,
+  "gate": {
+    "passed": false,
+    "score": 0.41666666666666663,
+    "blockers": [
+      "active residency insufficient",
+      "insufficient cognitive epochs",
+      "critical_unknowns unresolved",
+      "fresh verification missing",
+      "independent challenger missing",
+      "representation diversity insufficient",
+      "material value-of-thought remains"
+    ]
+  },
+  "mathematical_state": {
+    "critical_unknowns": 1,
+    "contradictions": 1,
+    "fresh_verifications": 1,
+    "robust_worlds": 10,
+    "material_representations": 1,
+    "remaining_vot": 1.0,
+    "quality": {
+      "correctness": 0.96,
+      "evidence": 0.94,
+      "robustness": 0.90,
+      "verification": 0.96
+    }
+  },
+  "audit": {
+    "valid": true,
+    "events": 15,
+    "digest": "82ad22e2fb5969c15965bff0215e28383034739baa1984607d335095cf4b9945"
+  },
+  "accepted_e44_artifacts": {
+    "R43": "art_a8837deca7",
+    "R43_attack": "art_c3d28499bf",
+    "R43_independent_verification": "art_1630dbc350",
+    "R44": "art_9346d97c90",
+    "R44_attack": "art_cab0c07b39",
+    "R44_independent_verification": "art_74fca82d3c",
+    "RD022": "art_129ad380a8"
+  },
+  "scope": "NONCONVERGED_PARTIALS_ONLY_NOT_GLOBAL_REGULARITY",
+  "note": "World gate diagnostics are research-governance metrics, not percentages of the Millennium Prize Problem solved."
+}
