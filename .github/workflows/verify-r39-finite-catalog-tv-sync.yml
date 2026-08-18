@@ -1,0 +1,26 @@
+name: Verify R39 finite-catalog TV synchronization
+
+on:
+  push:
+    paths:
+      - 'research/R39_finite_catalog_spacetime_total_variation_synchronization.md'
+      - 'verification/check_R39_finite_catalog_tv_sync.py'
+      - '.github/workflows/verify-r39-finite-catalog-tv-sync.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r39:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependency
+        run: python -m pip install --upgrade numpy
+      - name: Verify R39
+        run: python verification/check_R39_finite_catalog_tv_sync.py
