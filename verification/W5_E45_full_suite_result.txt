@@ -1,0 +1,11 @@
+W5_E45_FULL_SUITE=PASS
+verification_scripts=64
+verified_head=9e7cdc361030dc686be2575f31c02d72a128aa0d
+workflow_run_id=32093839544
+workflow_run_attempt=1
+shards=8
+scripts_per_shard=8
+python=3.12
+runner=Linux
+r45_specific_run=32093191615
+scope=PARTIAL_CERTIFICATES_ONLY_NOT_GLOBAL_REGULARITY
