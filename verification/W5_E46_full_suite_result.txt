@@ -1,0 +1,12 @@
+W5_E46_FULL_SUITE=PASS
+verification_scripts=67
+verified_head=961be1b878eacd69b81e72f495ea29c21dbc9fc7
+workflow_run_id=32094820170
+workflow_run_attempt=1
+shards=8
+shard_counts=9,9,9,8,8,8,8,8
+python=3.12
+runner=Linux
+r46_specific_run=32094667211
+external_bridge=PRIMARY_SOURCE_SCOPE_PINNED_NOT_REPROVED_BY_SCRIPT
+scope=PARTIAL_CERTIFICATES_ONLY_NOT_GLOBAL_REGULARITY
