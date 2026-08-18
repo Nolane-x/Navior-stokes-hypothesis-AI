@@ -10,33 +10,40 @@ Primary target: Clay statement **(B)** — global existence and smoothness on `R
 
 Official problem description: https://www.claymath.org/wp-content/uploads/2022/06/navierstokes.pdf
 
-## Current checkpoint — W5-E44
+## Current checkpoint — W5-E45
 
 Canonical semantic ledger:
 
-> `checkpoints/W5-E44-SEMANTIC-LEDGER.md`
+> `checkpoints/W5-E45-SEMANTIC-LEDGER.md`
 
-Final E44 aggregate verification:
+Canonical E45 aggregate verification:
 
 ```text
-workflow run: 32088968521
-verified_head: 700928a4cd70492708d551d2f95cf98dcf62b0fe
-verification_scripts=61
-W5_E44_FULL_SUITE=PASS
+workflow run: 32093839544
+verified_head: 9e7cdc361030dc686be2575f31c02d72a128aa0d
+verification_scripts=64
+shards=8
+scripts_per_shard=8
+W5_E45_FULL_SUITE=PASS
 scope=PARTIAL_CERTIFICATES_ONLY_NOT_GLOBAL_REGULARITY
 ```
 
-Self-report:
+Specific R45 gate:
 
-> `verification/W5_E44_full_suite_result.txt`
+```text
+workflow run: 32093191615
+R45_PRIMARY_PASS checks=145492
+R45_FRESH_GRID_PASS checks=312
+RD023_PASS checks=974
+```
 
-E44 research runtime:
+E45 research runtime:
 
-> Nolane World `0.6.0`, world `world4_07282ed4e1fb4049`, depth `W5`.
+> Nolane World `0.6.0`, world `world5_712c95ada64ec9f250d5`, depth `W5`.
 
 Its convergence gate **FAILED intentionally** with `critical_unknowns=1`. The public-safe gate is
 
-> `verification/W5_E44_world_gate_result.json`.
+> `verification/W5_E45_world_gate_result.json`.
 
 World scores are research-governance diagnostics, **not percentages of the Millennium Problem solved**.
 
@@ -97,7 +104,7 @@ R37 corrects an important strategic issue: small P/Q mismatch does not control t
 2C_H=<HL,JHG>.
 ```
 
-R37 then derives exact helical pair factors and closed P/Q channel geometry. Same-spin equal-shell pairs vanish; near-equal same-spin interactions are radially depleted; narrow-shell opposite-spin near-collinear interactions are depleted in the solenoidal channel. Pairwise depletion still does not automatically sum through a many-body nonlinear minimum.
+R37 derives exact helical pair factors and closed P/Q channel geometry. Same-spin equal-shell pairs vanish; near-equal same-spin interactions are radially depleted; narrow-shell opposite-spin near-collinear interactions are depleted in the solenoidal channel. Pairwise depletion still does not automatically sum through a many-body nonlinear minimum.
 
 R38 synchronizes productive work across an expanding cutoff hierarchy and across every signed sharp shell in that hierarchy.
 
@@ -122,9 +129,9 @@ beta_J=V^-1 E0^3 sqrt(|J|q_J),
 
 and therefore any fixed positive fraction of the unit productive work requires an exploding number of output modes. The hypothetical terminal mechanism is both frequency escaping and spectrally high-dimensional.
 
-## E44 advance — intrinsic scale + spatial center
+## E44 — lower productive scale + center
 
-### R43 — intrinsic positive-work quantile scale
+### R43 — intrinsic positive-work quantile radius
 
 R43 uses one derivative of the exact test field `G=|u|u`:
 
@@ -133,164 +140,175 @@ R43 uses one derivative of the exact test field `G=|u|u`:
 ||grad G||_1<=2E0||omega||_2.
 ```
 
-Hence, for each nonzero mode,
-
-```text
-|Ghat(k)|<=2V^-1 E0||omega||_2/|k|,
-|c_k(t)|<=V^-1 E0^2||omega||_2^2/|k|.
-```
-
-For a unit burst `J`,
-
-```text
-|b_k(J)|<=alpha_J/|k|,
-alpha_J=V^-1 E0^2 q_J.
-```
-
-Define `R_theta(J,L)` as the smallest radius above the parent cutoff carrying at least `theta` units of positive common work. Lattice capacity gives two critical-homogeneous floors:
+For a unit burst `J`, the integrated common-work coefficients satisfy a `1/|k|` envelope. If `R_theta(J,L)` is the smallest radius above the parent cutoff carrying at least `theta` units of positive common work, R43 obtains critical-homogeneous lower floors including
 
 ```text
 R_theta >= [theta V/(27E0^3 sqrt(|J|q_J))]^(1/3),
 R_theta >= [theta V/(26E0^2 q_J)]^(1/2).
 ```
 
-Thus each good unit burst selects an **intrinsic productive spectral scale** tending to infinity.
+Thus every good unit burst selects a productive spectral scale tending to infinity.
 
-### RD021 — scale floor is not parabolic compactness
+RD021 proves these lower floors do not by themselves force parabolic scale-time comparability.
 
-RD021 constructs abstract coefficient distributions satisfying both R42/R43 caps with unit positive work but with
+### R44 — parent-packet amplitude center
 
-```text
-R_theta^2 |J| -> 0
-```
+Using the exact `L^3` balance, R44 proves that parent packets containing many consecutive unit common-work bursts force a diverging velocity maximum. RD022 prevents the invalid shortcut from a large peak plus short time/small integrated enstrophy to a local kinetic-energy atom.
 
-or
+## E45 — exact signed-work upper scale
 
-```text
-R_theta^2 |J| -> infinity.
-```
+### R45/C003 — the full signed tail has an intrinsic `1/R` cap
 
-They are not Navier–Stokes trajectories. They reject the shortcut from mode envelopes to parabolic compactness.
-
-### R44 — the same burst gets an amplitude center
-
-Take a parent packet containing `N` consecutive R41 unit bursts. If `eta` bounds resolved mismatch total variation, `zeta` bounds resolved absolute work and
+For an R41 unit common-work burst `J`, define
 
 ```text
-q_I=∫_I||omega||_2^2dt,
-A_K=sup_(x,t in T^3×K)|u(x,t)|,
+c_k(t)=(V/2) Re[Lhat(k)·conj((Q_k-P_k)Ghat(k))],
+b_k(J)=∫_J c_k(t)dt,
+sum_(|k|>L0)b_k(J)=1.
 ```
 
-then the exact `L^3` balance plus
+Parseval, Cauchy–Schwarz,
 
 ```text
-||u||_3^3<=A_K E0^2,
-D_3<=2||u||_infinity||omega||_2^2
+|L|<=|u||omega|,
+|grad G|<=2|u||grad u|,
+||grad u||_2=||omega||_2
 ```
 
-implies
+give the instantaneous total-variation tail
 
 ```text
-A_K >= 3(N-eta/2-zeta)/(E0^2+6nu q_I).
+sum_(|k|>R)|c_k(t)|
+<= R^-1 ||u(t)||_infinity^2 ||omega(t)||_2^2.
 ```
 
-Along the terminal diagonal, `N->infinity` while `eta,zeta,q_I->0`, so `A_K->infinity`. Choose a maximizing point `(x_n,t_n)` and then the unit burst `J_n*` containing `t_n`.
-
-That **same actual-trajectory unit burst** now carries simultaneously:
-
-- exactly one normalized common productive-work unit;
-- negligible resolved work;
-- vanishing duration;
-- vanishing enstrophy cost;
-- a diverging velocity peak at a chosen spatial center;
-- a diverging intrinsic R43 productive spectral scale.
-
-This is the canonical E44 center-scale object.
-
-### RD022 — peak center is not yet a local-energy atom
-
-A smooth compactly supported divergence-free concentration family
+C003 records the sharp integrated work scale
 
 ```text
-u_n(x)=A_n v((x-x_0)/r_n)
+Lambda_J=∫_J ||u(t)||_infinity^2 ||omega(t)||_2^2 dt,
+Gamma_J=A_J^2 q_J,
 ```
 
-has
+with
 
 ```text
-||u_n||_infinity=A_n,
-||u_n||_2^2=C0 A_n^2 r_n^3,
-||grad u_n||_2^2=C1 A_n^2 r_n.
+T_J(R):=sum_(|k|>R)|b_k(J)|
+<= Lambda_J/R
+<= Gamma_J/R.
 ```
 
-With `A_n=n`, `r_n=n^-1`, the peak diverges while the total/local kinetic energy is `O(n^-1)->0`. Assigning an abstract interval `ell_n=n^-2` also makes the integrated `H^1` cost `O(n^-1)->0`.
-
-This is not a Navier–Stokes trajectory. It proves only that
-
-> `large peak + short duration + small integrated enstrophy`
-
-is insufficient, by itself, to produce a local-energy atom.
-
-## Canonical E44 obstruction
-
-A hypothetical singular trajectory compatible with the verified proof spine must now support normalized terminal bursts that are simultaneously
-
-1. frequency escaping;
-2. spectrally high-dimensional;
-3. balanced across the Helmholtz channels;
-4. compatible with R37 spin/radial/angular depletion;
-5. of unit common productive work;
-6. of vanishing duration and unweighted enstrophy cost;
-7. equipped with a diverging intrinsic productive radius `R_theta`;
-8. equipped with a diverging spatial amplitude peak `(x_n,t_n)`;
-9. yet potentially lacking any local-energy atom or parabolic tightness.
-
-The next load-bearing theorem must therefore be one of:
-
-> **local-energy/parabolic tightness for the R44 center-scale bursts**, sufficient to extract a nontrivial critical/ancient Navier–Stokes object;
-
-or
-
-> **many-body geometric depletion**, using R37 helical geometry plus R42 multiplicity to rule out coherent unit productive bursts directly.
-
-Another finite-catalog estimate, another mismatch estimate, or another generic Hölder/Bernstein bound is not enough.
-
-## Independent interfaces
-
-The repository keeps spatial/critical-element approaches as challengers rather than silently importing them. In particular, profile-decomposition/minimal-element methods become relevant only after the needed critical compactness hypotheses are actually obtained. The E44 route guards prevent treating `center + scale` as if compactness had already been proved.
-
-## Verification and research integrity
-
-Final E44 aggregate:
+Unit normalization immediately gives
 
 ```text
-workflow run: 32088968521
-61/61 Python certificates PASS
-verified theorem/checker head: 700928a4cd70492708d551d2f95cf98dcf62b0fe
+L0 <= Lambda_J <= Gamma_J,
+A_J >= sqrt(L0/q_J).
 ```
 
-World gate: `verification/W5_E44_world_gate_result.json` — **FAILED / NONCONVERGED_PARTIALS_ONLY**.
+So **every individual unit burst** carries its own diverging amplitude center; no many-burst parent is needed for this weaker but more local conclusion.
 
-The repository follows `docs/research_protocol.md`. In particular:
-
-- finite computation never implies the continuum PDE theorem;
-- a regularity criterion is not a proof until its hypothesis is derived a priori;
-- negative results and route guards remain first-class artifacts;
-- pairwise helical cancellation is not promoted silently into a many-body bound;
-- an intrinsic frequency scale is not confused with parabolic compactness;
-- a velocity peak is not confused with an energy atom;
-- internal World metrics are never presented as percentages of the Millennium Problem solved.
-
-## Repository layout
+After frequency normalization by `Lambda_J`, the signed common-work measure satisfies
 
 ```text
-docs/          protocols, problem certificates, dependency maps
-research/      verified partial theorems, challengers and structural reductions
-corrections/   explicit scope/frontier corrections
-discarded/     falsified routes and exact obstructions
-experiments/   preregistered or frozen computational experiments
-verification/  exact/symbolic/fresh-context reproduction certificates
-checkpoints/   milestone semantic ledgers
+|mu_J|({|xi|>r})<=1/r.
 ```
 
-The project advances only when a result survives its declared verification scope.
+This is uniform high-frequency total-variation tightness of the **work measure**.
+
+### R45 — first upper positive-work radius
+
+For fixed `0<theta<1`,
+
+```text
+R_theta(J,L0) <= Lambda_J/(1-theta)
+               <= Gamma_J/(1-theta).
+```
+
+R45 also uses the exact stress form
+
+```text
+L=div(u tensor u-(|u|^2/2)I)
+```
+
+to obtain a third lower floor
+
+```text
+R_theta >= [theta V/(27E0^4|J|)]^(1/4).
+```
+
+Combining the upper and lower scales yields quantitative amplitude/enstrophy constraints, including
+
+```text
+A_J >= sqrt(1-theta)(theta V/26)^(1/4)
+       E0^(-1/2) q_J^(-3/4).
+```
+
+Thus a normalized productive burst with vanishing unweighted enstrophy cost pays a super-`q^-1/2` amplitude price.
+
+### RD023 — high-tail tightness is not spectral non-collapse
+
+RD023 constructs an abstract `n^3`-mode positive work cloud satisfying the R42/R43/R45 scalar envelopes and even the **sharp** tail inequality with
+
+```text
+Lambda_n=Gamma_n=n^p, p>1,
+```
+
+while all productive modes obey
+
+```text
+|k|/Lambda_n -> 0.
+```
+
+It is not a Navier–Stokes trajectory. It proves only that scalar work-measure envelopes cannot be promoted to annular spectral compactness without genuine PDE/orbit structure.
+
+## Exact live frontier after E45
+
+E45 separates three compactness problems that must not be conflated:
+
+1. **spectral non-collapse** — control or exploit
+
+   ```text
+   Delta_theta^work=Lambda_J/R_theta;
+   ```
+
+2. **parabolic scale-time control** — relate burst duration to `R_theta` or `Lambda_J`;
+3. **spatial/local-energy tightness** — align a spatial concentration object with the same productive burst/scale.
+
+An alternative is to bypass compactness entirely by proving a **many-body depletion theorem** that upgrades R37 pairwise helical cancellation plus R42 multiplicity into a summable bound for the common productive mode.
+
+The next theorem should attack one of those load-bearing bridges. Another finite-catalog synchronization estimate, generic Hölder estimate, or energy-only scaling argument would not materially change the project.
+
+## Verification discipline
+
+Canonical E45 full-suite result:
+
+> `verification/W5_E45_full_suite_result.txt`
+
+Specific R45 result:
+
+> `verification/R45_gate_result.txt`
+
+World nonconvergence record:
+
+> `verification/W5_E45_world_gate_result.json`
+
+No certificate, numerical experiment, World score, finite verification, or structural reduction is interpreted as a proof of global regularity.
+
+## Research protocol
+
+The repository uses a theorem ledger and falsification-first progression:
+
+```text
+candidate theorem
+→ exact scope/domain
+→ adversarial route guards
+→ independent/fresh verifier where useful
+→ repository-wide replay
+→ Nolane World nonconvergence/convergence gate
+→ public-safe checkpoint/package
+```
+
+Failures and counterexamples are retained rather than hidden, because a false shortcut removed is valuable only if future work cannot silently reintroduce it.
+
+## Current conclusion
+
+**W5-E45 is a verified partial checkpoint, not a solution.** The singularity-compatible object is now far more constrained than at the beginning of the program: an actual-trajectory, unit common-work, high-dimensional ultraviolet burst with vanishing duration/enstrophy cost, a diverging amplitude center, a lower productive radius, and an exact signed-work upper scale. The remaining gap is to turn that architecture into genuine PDE compactness/rigidity or many-body depletion.
