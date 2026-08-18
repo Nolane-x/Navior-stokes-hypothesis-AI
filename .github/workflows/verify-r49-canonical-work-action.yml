@@ -1,0 +1,70 @@
+name: Verify R49 canonical work-action normalization
+
+on:
+  push:
+    paths:
+      - '.github/workflows/verify-r49-canonical-work-action.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify-r49:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependency
+        run: python -m pip install --upgrade numpy
+      - name: Run R49 and RD028 certificates
+        id: verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s research/R49_canonical_work_action_scale_and_subcritical_normalization.md
+          test -s sources/R49_wang_wu_zhou_epsilon_regular_without_pressure.md
+          test -s discarded/RD028_R49_integrated_subcritical_bounds_do_not_force_temporal_interiority.md
+          p="$(python verification/check_R49_canonical_work_action_subcritical_normalization.py)"
+          f="$(python verification/fresh_verify_e49_physical_work_action.py)"
+          d="$(python verification/check_RD028_R49_temporal_boundary_escape.py)"
+          echo "$p"; echo "$f"; echo "$d"
+          grep -q 'R49_PRIMARY_PASS checks=1320000' <<<"$p"
+          grep -q 'R49_FRESH_PHYSICAL_PASS checks=448' <<<"$f"
+          grep -q 'RD028_PASS checks=860000' <<<"$d"
+          {
+            echo "primary=$p"
+            echo "fresh=$f"
+            echo "rd028=$d"
+          } >> "$GITHUB_OUTPUT"
+      - name: Commit R49 gate record
+        env:
+          PRIMARY: ${{ steps.verify.outputs.primary }}
+          FRESH: ${{ steps.verify.outputs.fresh }}
+          RD028: ${{ steps.verify.outputs.rd028 }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_head="$(git rev-parse HEAD)"
+          cat > verification/R49_gate_result.txt <<EOF
+          R49_GATE=PASS
+          source_head=${source_head}
+          workflow_run_id=${GITHUB_RUN_ID}
+          workflow_run_attempt=${GITHUB_RUN_ATTEMPT}
+          ${PRIMARY}
+          ${FRESH}
+          ${RD028}
+          external_bridge=ARXIV_1811_09927_SCOPE_PINNED_NOT_REPROVED_BY_SCRIPT
+          scope=VERIFIED_PARTIAL_CANONICAL_SUBCRITICAL_NORMALIZATION_NOT_GLOBAL_REGULARITY
+          EOF
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin main
+          git add verification/R49_gate_result.txt
+          git commit -m 'Record R49 canonical normalization verification pass'
+          git push origin HEAD:main
