@@ -1,0 +1,8 @@
+W5_E42_FULL_SUITE=PASS
+verification_scripts=55
+verified_head=15175874a90ea42c765c8bf675cd611ffde32475
+workflow_run_id=32085926354
+workflow_run_attempt=1
+python=3.12
+runner=Linux
+scope=PARTIAL_CERTIFICATES_ONLY_NOT_GLOBAL_REGULARITY
