@@ -1,0 +1,57 @@
+{
+  "milestone": "W5-E45",
+  "status": "NONCONVERGED_PARTIALS_ONLY",
+  "runtime": "Nolane World 0.6.0 source-resident",
+  "world_id": "world5_712c95ada64ec9f250d5",
+  "research_session_id": "research_4287f73fff43913e47",
+  "critical_unknowns": 1,
+  "quality": {
+    "correctness": 0.965,
+    "evidence": 0.95,
+    "robustness": 0.94,
+    "verification": 0.97
+  },
+  "fresh_verifications": 1,
+  "verified_counterexample_id": "cx_1c70609b8a469af6be",
+  "research_closure": {
+    "verdict": "blocked",
+    "blockers": [
+      "rivals_resolved",
+      "claim_provenance",
+      "contradictions_repaired",
+      "replication",
+      "benchmark_validity",
+      "verifier_independence",
+      "assumptions_stressed",
+      "preregistration",
+      "source_independence",
+      "evidence_uptake",
+      "trial_disclosure",
+      "nondeterminism_control",
+      "environment_contract",
+      "external_validity",
+      "confidence_calibrated",
+      "stopping_rule",
+      "epistemic_debt:debt_70d5959d557fa818e3"
+    ]
+  },
+  "gate": {
+    "passed": false,
+    "score": 0.2142857142857143,
+    "blockers": [
+      "trusted active residency insufficient",
+      "independent attested compute insufficient",
+      "cognitive VM program insufficiently executed",
+      "critical unknowns unresolved by trusted evidence",
+      "independent fresh verification insufficient",
+      "independent challenger evidence insufficient",
+      "verified robust/counterfactual worlds insufficient",
+      "verified material representation diversity insufficient",
+      "validated information gain insufficient",
+      "trusted assessment says material value-of-thought remains",
+      "proof obligations remain open"
+    ]
+  },
+  "canonical_frontier": "Three-part E45 compactness frontier: spectral non-collapse for Delta_theta^work=Lambda_J/R_theta, parabolic scale-time comparability, and spatial/local-energy tightness; alternatively prove many-body depletion before compactness.",
+  "scope": "WORLD_GOVERNANCE_DIAGNOSTIC_NOT_MATHEMATICAL_COMPLETION_PERCENTAGE"
+}
