@@ -5,6 +5,7 @@ on:
     paths:
       - 'research/R39_finite_catalog_spacetime_total_variation_synchronization.md'
       - 'verification/check_R39_finite_catalog_tv_sync.py'
+      - 'verification/fresh_verify_e38_R39_mode_tv.py'
       - '.github/workflows/verify-r39-finite-catalog-tv-sync.yml'
   workflow_dispatch:
 
@@ -22,5 +23,7 @@ jobs:
           python-version: '3.12'
       - name: Install verifier dependency
         run: python -m pip install --upgrade numpy
-      - name: Verify R39
+      - name: Verify R39 primary
         run: python verification/check_R39_finite_catalog_tv_sync.py
+      - name: Verify R39 fresh context
+        run: python verification/fresh_verify_e38_R39_mode_tv.py
