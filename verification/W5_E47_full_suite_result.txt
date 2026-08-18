@@ -1,0 +1,11 @@
+W5_E47_FULL_SUITE=PASS
+verification_scripts=70
+verified_head=a85b8d0fc5d0114471fc0a1bb361df91f41489dc
+workflow_run_id=32099291680
+workflow_run_attempt=1
+shards=8
+shard_counts=9,9,9,9,9,9,8,8
+python=3.12
+runner=Linux
+r47_specific_run=32099072580
+scope=PARTIAL_CERTIFICATES_ONLY_NOT_GLOBAL_REGULARITY
