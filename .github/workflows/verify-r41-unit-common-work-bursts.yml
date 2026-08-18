@@ -1,0 +1,29 @@
+name: Verify R41 unit common-work bursts
+
+on:
+  push:
+    paths:
+      - 'research/R41_synchronized_unit_common_work_burst_extraction.md'
+      - 'verification/check_R41_unit_common_work_bursts.py'
+      - 'verification/fresh_verify_e41_R41_backtracking_bursts.py'
+      - '.github/workflows/verify-r41-unit-common-work-bursts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r41:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependency
+        run: python -m pip install --upgrade numpy
+      - name: Verify R41 primary
+        run: python verification/check_R41_unit_common_work_bursts.py
+      - name: Verify R41 fresh backtracking context
+        run: python verification/fresh_verify_e41_R41_backtracking_bursts.py
