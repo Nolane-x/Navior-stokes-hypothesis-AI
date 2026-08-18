@@ -1,0 +1,8 @@
+R45_GATE=PASS
+source_head=a97571d4eaea308e4ce12046ae8389c92910d1f6
+workflow_run_id=32093191615
+workflow_run_attempt=1
+R45_PRIMARY_PASS checks=145492
+R45_FRESH_GRID_PASS checks=312 max_tail_ratio=0.00206567 max_stress_ratio=0.000118287 max_grad_ratio=0.457424
+RD023_PASS checks=974
+scope=VERIFIED_PARTIAL_SPECTRAL_WORK_TAIL_NOT_GLOBAL_REGULARITY
