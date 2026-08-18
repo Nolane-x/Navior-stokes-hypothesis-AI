@@ -1,0 +1,33 @@
+name: Verify R43 intrinsic productive-work scale
+
+on:
+  push:
+    paths:
+      - 'research/R43_intrinsic_positive_common_work_quantile_scale.md'
+      - 'discarded/RD021_intrinsic_scale_floors_do_not_force_parabolic_compactness.md'
+      - 'verification/check_R43_intrinsic_quantile_scale.py'
+      - 'verification/fresh_verify_e43_intrinsic_scale_grid.py'
+      - 'verification/check_RD021_intrinsic_scale_parabolic_countermodels.py'
+      - '.github/workflows/verify-r43-intrinsic-scale.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r43:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependency
+        run: python -m pip install --upgrade numpy
+      - name: Primary R43 certificate
+        run: python verification/check_R43_intrinsic_quantile_scale.py
+      - name: Fresh physical-grid R43 reconstruction
+        run: python verification/fresh_verify_e43_intrinsic_scale_grid.py
+      - name: RD021 route guard
+        run: python verification/check_RD021_intrinsic_scale_parabolic_countermodels.py
