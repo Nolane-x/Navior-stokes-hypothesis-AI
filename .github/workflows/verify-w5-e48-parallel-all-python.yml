@@ -1,4 +1,4 @@
-# Canonical E48 aggregate: all 73 Python certificates split across 8 disjoint shards.
+# Final E48 aggregate: all 74 Python certificates split across 8 disjoint shards.
 name: Verify W5 E48 parallel all Python certificates
 
 on:
@@ -33,8 +33,8 @@ jobs:
           set -euo pipefail
           shopt -s nullglob
           files=(verification/*.py)
-          if [ "${#files[@]}" -ne 73 ]; then
-            echo "Expected exactly 73 verification scripts; found ${#files[@]}" >&2
+          if [ "${#files[@]}" -ne 74 ]; then
+            echo "Expected exactly 74 verification scripts; found ${#files[@]}" >&2
             exit 1
           fi
           count=0
@@ -46,7 +46,7 @@ jobs:
             PYTHONDONTWRITEBYTECODE=1 python "$f"
             count=$((count+1))
           done
-          if [ "$SHARD" -eq 0 ]; then expected=10; else expected=9; fi
+          if [ "$SHARD" -le 1 ]; then expected=10; else expected=9; fi
           if [ "$count" -ne "$expected" ]; then
             echo "Shard $SHARD expected $expected scripts, got $count" >&2
             exit 1
@@ -54,7 +54,7 @@ jobs:
           printf 'shard=%s\ncount=%s\nstatus=PASS\nhead=%s\n' "$SHARD" "$count" "$GITHUB_SHA" > "shard-${SHARD}.txt"
       - uses: actions/upload-artifact@v4
         with:
-          name: e48-shard-${{ matrix.shard }}
+          name: e48-final-shard-${{ matrix.shard }}
           path: shard-${{ matrix.shard }}.txt
           if-no-files-found: error
 
@@ -68,7 +68,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/download-artifact@v4
         with:
-          pattern: e48-shard-*
+          pattern: e48-final-shard-*
           path: shard-results
           merge-multiple: true
       - name: Validate all shard attestations
@@ -81,13 +81,13 @@ jobs:
             f="shard-results/shard-${s}.txt"
             test -s "$f"
             grep -qx "shard=${s}" "$f"
-            if [ "$s" -eq 0 ]; then expected=10; else expected=9; fi
+            if [ "$s" -le 1 ]; then expected=10; else expected=9; fi
             grep -qx "count=${expected}" "$f"
             grep -qx 'status=PASS' "$f"
             grep -qx "head=${GITHUB_SHA}" "$f"
             total=$((total+expected))
           done
-          test "$total" -eq 73
+          test "$total" -eq 74
           echo "total=$total" >> "$GITHUB_OUTPUT"
           echo "PASS verification_scripts=$total"
       - name: Commit canonical E48 aggregate result
@@ -104,7 +104,7 @@ jobs:
           workflow_run_id=${GITHUB_RUN_ID}
           workflow_run_attempt=${GITHUB_RUN_ATTEMPT}
           shards=8
-          shard_counts=10,9,9,9,9,9,9,9
+          shard_counts=10,10,9,9,9,9,9,9
           python=3.12
           runner=${RUNNER_OS}
           r47_specific_run=32099072580
@@ -113,5 +113,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add verification/W5_E48_full_suite_result.txt
-          git commit -m 'Record W5 E48 full-suite verification pass'
+          git commit -m 'Record final W5 E48 full-suite verification pass'
           git push origin HEAD:main
