@@ -1,0 +1,103 @@
+name: Package W5 E42 public-safe source
+
+on:
+  push:
+    paths:
+      - '.github/workflows/package-w5-e42.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Create and audit public-safe E42 archive
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_head="$(git rev-parse HEAD)"
+          cat > W5-E42-PACKAGE-MANIFEST.txt <<EOF
+          checkpoint=W5-E42
+          source_head=${source_head}
+          workflow_run_id=${GITHUB_RUN_ID}
+          workflow_run_attempt=${GITHUB_RUN_ATTEMPT}
+          scope=PUBLIC_SAFE_VERIFIED_PARTIALS_NOT_GLOBAL_REGULARITY
+          EOF
+          zip -qr Navior-stokes-hypothesis-AI-W5-E42.zip \
+            README.md docs research corrections discarded experiments verification checkpoints .github/workflows W5-E42-PACKAGE-MANIFEST.txt \
+            -x '*.sqlite3' '*credentials*' '*credential*' '*secret*' '*token*' '*trust*.json' '*/__pycache__/*' '*.pyc' '*.nbc' '*.nbi'
+          test -s Navior-stokes-hypothesis-AI-W5-E42.zip
+          unzip -t Navior-stokes-hypothesis-AI-W5-E42.zip >/dev/null
+          read entries verifiers <<EOF
+          $(python - <<'PY'
+          import zipfile
+          p='Navior-stokes-hypothesis-AI-W5-E42.zip'
+          with zipfile.ZipFile(p) as z:
+              names=z.namelist()
+          required=[
+              'research/R39_finite_catalog_spacetime_total_variation_synchronization.md',
+              'research/R40_strong_finite_catalog_absolute_work_evacuation.md',
+              'research/R41_synchronized_unit_common_work_burst_extraction.md',
+              'research/R42_unit_burst_spectral_multiplicity_explosion.md',
+              'discarded/RD020_lacunary_critical_burst_budget_countermodel.md',
+              'research/C03_atomic_endpoint_full_tail_rigidity_challenger.md',
+              'verification/W5_E42_full_suite_result.txt',
+              'verification/W5_E42_world_gate_result.json',
+              'checkpoints/W5-E42-SEMANTIC-LEDGER.md',
+              'W5-E42-PACKAGE-MANIFEST.txt',
+          ]
+          missing=[x for x in required if x not in names]
+          if missing:
+              raise SystemExit(f'missing required E42 files: {missing}')
+          py=[n for n in names if n.startswith('verification/') and n.endswith('.py')]
+          if len(py)!=55:
+              raise SystemExit(f'expected 55 verification scripts, got {len(py)}')
+          print(len(names),len(py))
+          PY
+          )
+          EOF
+          sha="$(sha256sum Navior-stokes-hypothesis-AI-W5-E42.zip | awk '{print $1}')"
+          echo "zip_entries=${entries}"
+          echo "verification_python_scripts=${verifiers}"
+          echo "inner_zip_sha256=${sha}"
+          echo "entries=${entries}" >> "$GITHUB_OUTPUT"
+          echo "verifiers=${verifiers}" >> "$GITHUB_OUTPUT"
+          echo "sha=${sha}" >> "$GITHUB_OUTPUT"
+          echo "source_head=${source_head}" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Navior-stokes-hypothesis-AI-W5-E42
+          path: Navior-stokes-hypothesis-AI-W5-E42.zip
+          retention-days: 90
+          if-no-files-found: error
+      - name: Commit successful package provenance
+        env:
+          SOURCE_HEAD: ${{ steps.package.outputs.source_head }}
+          ENTRIES: ${{ steps.package.outputs.entries }}
+          VERIFIERS: ${{ steps.package.outputs.verifiers }}
+          ZIP_SHA: ${{ steps.package.outputs.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > verification/W5_E42_package_result.txt <<EOF
+          W5_E42_PACKAGE=PASS
+          source_head=${SOURCE_HEAD}
+          workflow_run_id=${GITHUB_RUN_ID}
+          workflow_run_attempt=${GITHUB_RUN_ATTEMPT}
+          zip_entries=${ENTRIES}
+          verification_python_scripts=${VERIFIERS}
+          inner_zip_sha256=${ZIP_SHA}
+          scope=PUBLIC_SAFE_VERIFIED_PARTIALS_NOT_GLOBAL_REGULARITY
+          EOF
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add verification/W5_E42_package_result.txt
+          git commit -m 'Record W5 E42 package provenance'
+          git push origin HEAD:main
