@@ -1,0 +1,117 @@
+# Canonical E47 aggregate: 70 Python certificates split across 8 disjoint shards.
+name: Verify W5 E47 parallel all Python certificates
+
+on:
+  push:
+    paths:
+      - '.github/workflows/verify-w5-e47-parallel-all-python.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  shard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependencies
+        run: python -m pip install --upgrade numpy numba sympy
+      - name: Run disjoint verification shard
+        shell: bash
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(verification/*.py)
+          if [ "${#files[@]}" -ne 70 ]; then
+            echo "Expected exactly 70 verification scripts; found ${#files[@]}" >&2
+            exit 1
+          fi
+          count=0
+          for i in "${!files[@]}"; do
+            if [ $((i % 8)) -ne "$SHARD" ]; then continue; fi
+            f="${files[$i]}"
+            find experiments verification -type d -name '__pycache__' -prune -exec rm -rf {} + 2>/dev/null || true
+            echo "===== SHARD ${SHARD} RUN $f ====="
+            PYTHONDONTWRITEBYTECODE=1 python "$f"
+            count=$((count+1))
+          done
+          if [ "$SHARD" -le 5 ]; then expected=9; else expected=8; fi
+          if [ "$count" -ne "$expected" ]; then
+            echo "Shard $SHARD expected $expected scripts, got $count" >&2
+            exit 1
+          fi
+          printf 'shard=%s\ncount=%s\nstatus=PASS\nhead=%s\n' "$SHARD" "$count" "$GITHUB_SHA" > "shard-${SHARD}.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: e47-shard-${{ matrix.shard }}
+          path: shard-${{ matrix.shard }}.txt
+          if-no-files-found: error
+
+  attest:
+    needs: shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: e47-shard-*
+          path: shard-results
+          merge-multiple: true
+      - name: Validate all shard attestations
+        id: validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          total=0
+          for s in 0 1 2 3 4 5 6 7; do
+            f="shard-results/shard-${s}.txt"
+            test -s "$f"
+            grep -qx "shard=${s}" "$f"
+            if [ "$s" -le 5 ]; then expected=9; else expected=8; fi
+            grep -qx "count=${expected}" "$f"
+            grep -qx 'status=PASS' "$f"
+            grep -qx "head=${GITHUB_SHA}" "$f"
+            total=$((total+expected))
+          done
+          test "$total" -eq 70
+          echo "total=$total" >> "$GITHUB_OUTPUT"
+          echo "PASS verification_scripts=$total"
+      - name: Commit canonical E47 aggregate result
+        env:
+          VERIFIED_COUNT: ${{ steps.validate.outputs.total }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --rebase origin main
+          cat > verification/W5_E47_full_suite_result.txt <<EOF
+          W5_E47_FULL_SUITE=PASS
+          verification_scripts=${VERIFIED_COUNT}
+          verified_head=${GITHUB_SHA}
+          workflow_run_id=${GITHUB_RUN_ID}
+          workflow_run_attempt=${GITHUB_RUN_ATTEMPT}
+          shards=8
+          shard_counts=9,9,9,9,9,9,8,8
+          python=3.12
+          runner=${RUNNER_OS}
+          r47_specific_run=32099072580
+          scope=PARTIAL_CERTIFICATES_ONLY_NOT_GLOBAL_REGULARITY
+          EOF
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add verification/W5_E47_full_suite_result.txt
+          git commit -m 'Record W5 E47 full-suite verification pass'
+          git push origin HEAD:main
