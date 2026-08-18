@@ -39,16 +39,19 @@ for _ in range(10000):
     theta=rng.uniform(.08,.92)
     L0=10**rng.uniform(-1,3)
 
-    # Pick Gamma above all lower requirements so a synthetic unit burst is admissible.
+    # Pick the exact work scale Lambda above the parent/quantile requirements,
+    # then allow the coarse Gamma=A^2 q cap to be larger.
     r2=math.sqrt(theta*V/(26*E0**2*q))
     r3=(theta*V/(27*E0**3*math.sqrt(ell*q)))**(1/3)
     r4=(theta*V/(27*E0**4*ell))**.25
-    Gamma=max(1.01*L0,(1-theta)*max(r2,r3,r4)*1.01)
+    Lambda=max(1.01*L0,(1-theta)*max(r2,r3,r4)*1.01)
+    Gamma=Lambda*10**rng.uniform(0,1.5)
     A=math.sqrt(Gamma/q)
 
-    ok(Gamma >= L0, 'parent cutoff consequence')
-    Rtheta=min(Gamma/(1-theta), max(r2,r3,r4)*1.0001)
-    ok(Rtheta <= Gamma/(1-theta)+1e-12, 'quantile upper cap')
+    ok(Lambda >= L0, 'exact work scale dominates parent cutoff')
+    ok(Gamma >= Lambda, 'coarse Gamma dominates Lambda')
+    Rtheta=min(Lambda/(1-theta), max(r2,r3,r4)*1.0001)
+    ok(Rtheta <= Lambda/(1-theta)+1e-12, 'sharp Lambda quantile upper cap')
     ok(Rtheta >= r2*.999, 'q-floor')
     ok(Rtheta >= r3*.999, 'cubic floor')
     ok(Rtheta >= r4*.999, 'stress quartic floor')
@@ -65,7 +68,7 @@ for _ in range(10000):
 
     # Critical scaling.  Formal concentration scaling: A->lambda A,
     # q->lambda^-1 q, ell->lambda^-2 ell, E0->lambda^-1/2 E0,
-    # R,L,Gamma->lambda times themselves.
+    # R,L,Lambda,Gamma->lambda times themselves.
     lam=10**rng.uniform(-2,2)
     V2=V
     E02=lam**-.5*E0
@@ -73,6 +76,8 @@ for _ in range(10000):
     q2=lam**-1*q
     A2=lam*A
     G2=A2*A2*q2
+    Lambda2=lam*Lambda
+    ok(abs(Lambda2/(lam*Lambda)-1)<1e-10, 'Lambda scaling')
     ok(abs(G2/(lam*Gamma)-1)<1e-10, 'Gamma scaling')
     inv_q=A*E0**.5*q**.75
     inv_q2=A2*E02**.5*q2**.75
@@ -82,34 +87,26 @@ for _ in range(10000):
     ok(abs(inv_s2/inv_s-1)<1e-10, 'stress-amplitude invariant')
 
 # Synthetic signed catalogues: if total net above L is one and TV tail is
-# bounded by Gamma/R, positive work below Gamma/(1-theta) is >=theta.
+# bounded by Lambda/R, positive work below Lambda/(1-theta) is >=theta.
 for _ in range(5000):
     theta=rng.uniform(.1,.9)
     m=rng.randint(8,80)
-    # Random signed b with exact net 1.
     vals=[rng.uniform(-.1,.2) for _ in range(m-1)]
     vals.append(1-sum(vals))
     radii=sorted(rng.uniform(1,50) for _ in range(m))
     L0=.5
-    # Minimal Gamma satisfying all discrete tail inequalities at catalogue radii.
-    Gamma=L0
-    for i,R in enumerate(radii):
-        # Worst point for the step tail is R approached from below, so the
-        # mode at this radius is still included.
+    Lambda=L0
+    for R in radii:
         tail=sum(abs(v) for rr,v in zip(radii,vals) if rr>=R)
-        Gamma=max(Gamma,R*tail)
-    # Also include R=L0.
-    Gamma=max(Gamma,L0*sum(abs(v) for v in vals))
-    Rstar=Gamma/(1-theta)
+        Lambda=max(Lambda,R*tail)
+    Lambda=max(Lambda,L0*sum(abs(v) for v in vals))
+    Rstar=Lambda/(1-theta)
     pos_total=sum(max(v,0) for v in vals)
     tail_pos=sum(max(v,0) for rr,v in zip(radii,vals) if rr>Rstar)
     below=pos_total-tail_pos
-    # If Rstar lies beyond all modes tail=0.  Otherwise the tail inequality
-    # constructed above implies the claim up to discrete threshold slack.
     if any(rr>Rstar for rr in radii):
-        # evaluate at the largest catalogue threshold <= Rstar; monotonicity only helps.
         tail_abs=sum(abs(v) for rr,v in zip(radii,vals) if rr>Rstar)
-        ok(tail_abs <= Gamma/Rstar + 1e-9, 'synthetic TV tail')
+        ok(tail_abs <= Lambda/Rstar + 1e-9, 'synthetic Lambda TV tail')
     ok(below + 1e-9 >= theta, 'positive quantile consequence')
 
 print(f'R45_PRIMARY_PASS checks={checks}')
