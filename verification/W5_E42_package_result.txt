@@ -1,0 +1,8 @@
+W5_E42_PACKAGE=PASS
+source_head=9d935611d0f902b026a06b753d8cbfea75f6e6da
+workflow_run_id=32086303339
+workflow_run_attempt=1
+zip_entries=223
+verification_python_scripts=55
+inner_zip_sha256=c06bb320b3d6abe83296a97ac2dda40360e4ae48ee382779e17e598e2f243411
+scope=PUBLIC_SAFE_VERIFIED_PARTIALS_NOT_GLOBAL_REGULARITY
