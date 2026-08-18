@@ -1,0 +1,38 @@
+{
+  "checkpoint": "W5-E48",
+  "runtime": "Nolane World 0.6.0",
+  "world_id": "world4_cabfca04208f494d",
+  "depth": "W5",
+  "epoch": 18,
+  "active_seconds": 5460.0,
+  "audit": {
+    "valid": true,
+    "events": 26,
+    "digest": "3fe576a238047498041e7437787fb9d41cf6c7bb9d7765f6d220de223014814f"
+  },
+  "state": {
+    "critical_unknowns": 1,
+    "fresh_verifications": 2,
+    "challengers_survived": 2,
+    "robust_worlds": 10,
+    "material_representations": 5,
+    "remaining_vot": 0.9,
+    "quality": {
+      "correctness": 0.96,
+      "evidence": 0.96,
+      "robustness": 0.92,
+      "verification": 0.97
+    }
+  },
+  "gate": {
+    "passed": false,
+    "score": 0.75,
+    "blockers": [
+      "active residency insufficient",
+      "critical_unknowns unresolved",
+      "material value-of-thought remains"
+    ]
+  },
+  "live_mathematical_unknown": "Prove PDE-level parabolic/local spatial compactness or rigidity for the R47-R48 productive/work-action normalized bursts, preventing both RD026 temporal mismatch and RD027 spatial fragmentation/normalized-IR escape, strongly enough to pass nonzero productive common-work/helical structure into a compact blow-up limit or obtain a contradiction before the limit.",
+  "scope": "NONCONVERGED_VERIFIED_PARTIALS_ONLY_NOT_GLOBAL_REGULARITY"
+}
