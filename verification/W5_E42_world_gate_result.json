@@ -1,0 +1,49 @@
+{
+  "checkpoint": "W5-E42",
+  "world_id": "world_ed29477b4f5b4345",
+  "depth": "W5",
+  "status": "NONCONVERGED_PARTIALS_ONLY",
+  "gate": {
+    "passed": false,
+    "blockers": [
+      "minimum active cognitive residency not met",
+      "depth proof: material representation diversity",
+      "depth proof: critical unknown closure",
+      "depth proof: contradiction resolution",
+      "unresolved high-severity attack",
+      "material value-of-thought remains"
+    ]
+  },
+  "active_seconds": 6260.0,
+  "quality": {
+    "correctness": 0.965,
+    "evidence": 0.945,
+    "robustness": 0.91,
+    "verification": 0.97
+  },
+  "depth_proof": {
+    "material_representations": 3,
+    "prediction_hypotheses": 14,
+    "falsifications": 13,
+    "contradictions_discovered": 2,
+    "contradictions_resolved": 0,
+    "critical_unknowns_initial": 2,
+    "critical_unknowns_closed": 1,
+    "discriminating_experiments": 8,
+    "counterfactual_worlds": 20,
+    "robust_worlds": 20,
+    "attacks": 13,
+    "attacks_survived": 0,
+    "independent_reconstruction": true,
+    "fresh_verification": true,
+    "independent_source_families": 3,
+    "information_gain_total": 35.40000000000001,
+    "low_gain_streak": 0,
+    "evidence_lineage_intact": true
+  },
+  "unresolved_high_attacks": 18,
+  "remaining_value_of_thought": 1.0,
+  "mathematical_critical_unknowns_remaining": 1,
+  "live_unknown": "intrinsic active scale/spatial center and many-body geometric rigidity for R41 unit common-work bursts with R42 spectral multiplicity explosion",
+  "scope": "research governance state only; NOT a percentage solved and NOT a global regularity certificate"
+}
