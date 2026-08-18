@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Primary algebraic certificate for R48 productive-scale alignment."""
+"""Primary algebraic certificate for R48/C004 productive-scale alignment."""
 from __future__ import annotations
 import math, random
 rng=random.Random(480048)
@@ -31,6 +31,8 @@ for _ in range(120000):
     ok(Rtheta/A<=28*math.sqrt(2)/(3*nu*(1-theta))+1e-12,'R/A uniform')
     ok(B>=L/(math.sqrt(2)*D)-1e-12,'B cutoff lower')
     ok(center/Rtheta>=3*nu*(1-theta)/(56*math.sqrt(2))-1e-12,'center normalized')
+    ok(X/Rtheta >= (1-theta)/math.sqrt(2)-1e-12,'C004 rescaled X nontrivial')
+    ok((X/2)/Rtheta >= (1-theta)/(2*math.sqrt(2))-1e-12,'C004 high-set X nontrivial')
 
 # Weighted-atom half-mass lemma: B = X/D, x_i <= a_i d_i, H={a>=B/2}.
 for _ in range(30000):
