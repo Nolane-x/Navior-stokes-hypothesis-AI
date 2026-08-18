@@ -1,0 +1,57 @@
+name: Verify R45 exact common-work tail
+
+on:
+  push:
+    paths:
+      - 'research/R45_absolute_common_work_tail_and_intrinsic_uv_cap.md'
+      - 'discarded/RD023_gamma_rescaling_does_not_prevent_low_frequency_collapse.md'
+      - 'corrections/C003_R45_exact_work_scale_and_compactness_frontier.md'
+      - 'verification/check_R45_absolute_common_work_tail.py'
+      - 'verification/fresh_verify_e45_common_work_tail_grid.py'
+      - 'verification/check_RD023_gamma_rescaling_low_frequency_collapse.py'
+      - '.github/workflows/verify-r45-common-work-tail.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify-r45:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependency
+        run: python -m pip install --upgrade numpy
+      - name: Primary R45 certificate
+        run: python verification/check_R45_absolute_common_work_tail.py | tee /tmp/r45-primary.txt
+      - name: Fresh physical-grid R45 reconstruction
+        run: python verification/fresh_verify_e45_common_work_tail_grid.py | tee /tmp/r45-fresh.txt
+      - name: RD023 sharp-work-scale route guard
+        run: python verification/check_RD023_gamma_rescaling_low_frequency_collapse.py | tee /tmp/rd023.txt
+      - name: Self-report successful gate
+        env:
+          SOURCE_HEAD: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          {
+            echo 'R45_GATE=PASS'
+            echo "source_head=$SOURCE_HEAD"
+            echo "workflow_run_id=$RUN_ID"
+            echo "workflow_run_attempt=$RUN_ATTEMPT"
+            echo "$(tail -n 1 /tmp/r45-primary.txt)"
+            echo "$(tail -n 1 /tmp/r45-fresh.txt)"
+            echo "$(tail -n 1 /tmp/rd023.txt)"
+            echo 'scope=VERIFIED_PARTIAL_SPECTRAL_WORK_TAIL_NOT_GLOBAL_REGULARITY'
+          } > verification/R45_gate_result.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add verification/R45_gate_result.txt
+          git commit -m 'Record R45 exact work-tail verification pass'
+          git push
