@@ -1,3 +1,4 @@
+# Final E44 aggregate includes RD022 peak-center route guard.
 name: Verify W5 E44 all Python certificates
 
 on:
