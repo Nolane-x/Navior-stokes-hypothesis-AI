@@ -1,0 +1,118 @@
+name: Package W5 E48 public-safe source
+
+on:
+  push:
+    paths:
+      - '.github/workflows/package-w5-e48.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Create and audit public-safe E48 archive
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_head="$(git rev-parse HEAD)"
+          cat > W5-E48-PACKAGE-MANIFEST.txt <<EOF
+          checkpoint=W5-E48
+          source_head=${source_head}
+          workflow_run_id=${GITHUB_RUN_ID}
+          workflow_run_attempt=${GITHUB_RUN_ATTEMPT}
+          verified_full_suite_run=32100503157
+          verified_full_suite_head=be7ed7c80a78ac270558445580ed6d7bee9c3dae
+          r47_specific_run=32099072580
+          r48_specific_run=32100395344
+          scope=PUBLIC_SAFE_VERIFIED_PARTIALS_NOT_GLOBAL_REGULARITY
+          EOF
+          zip -qr Navior-stokes-hypothesis-AI-W5-E48.zip \
+            README.md docs research corrections discarded experiments verification checkpoints sources .github/workflows W5-E48-PACKAGE-MANIFEST.txt \
+            -x '*.sqlite3' '*credentials*' '*credential*' '*secret*' '*token*' '*trust*.json' '*/__pycache__/*' '*.pyc' '*.nbc' '*.nbi'
+          test -s Navior-stokes-hypothesis-AI-W5-E48.zip
+          unzip -t Navior-stokes-hypothesis-AI-W5-E48.zip >/dev/null
+          read entries verifiers <<EOF
+          $(python - <<'PY'
+          import zipfile
+          p='Navior-stokes-hypothesis-AI-W5-E48.zip'
+          with zipfile.ZipFile(p) as z:
+              names=z.namelist()
+          required=[
+              'research/R47_last_exit_unit_bursts_with_bounded_critical_sobolev_action.md',
+              'research/R48_productive_scale_work_linked_center_alignment.md',
+              'corrections/C004_R48_productive_scale_nontriviality_strengthened_to_weighted_mass.md',
+              'discarded/RD025_uniform_per_burst_critical_action_not_terminal_summability.md',
+              'discarded/RD026_productive_scale_nontriviality_does_not_force_parabolic_time_alignment.md',
+              'discarded/RD027_global_weighted_mass_does_not_force_local_spatial_tightness.md',
+              'verification/R47_gate_result.txt',
+              'verification/R48_gate_result.txt',
+              'verification/W5_E48_full_suite_result.txt',
+              'verification/W5_E48_world_gate_result.json',
+              'checkpoints/W5-E48-SEMANTIC-LEDGER.md',
+              'sources/R46_albritton_barker_interior_singularity_ancient_bridge.md',
+              'W5-E48-PACKAGE-MANIFEST.txt',
+          ]
+          missing=[x for x in required if x not in names]
+          if missing:
+              raise SystemExit(f'missing required E48 files: {missing}')
+          py=[n for n in names if n.startswith('verification/') and n.endswith('.py')]
+          if len(py)!=74:
+              raise SystemExit(f'expected 74 verification scripts, got {len(py)}')
+          forbidden=[n for n in names if n.endswith('.sqlite3') or '__pycache__' in n or n.endswith(('.pyc','.nbc','.nbi'))]
+          if forbidden:
+              raise SystemExit(f'forbidden cache/runtime files: {forbidden[:10]}')
+          print(len(names),len(py))
+          PY
+          )
+          EOF
+          sha="$(sha256sum Navior-stokes-hypothesis-AI-W5-E48.zip | awk '{print $1}')"
+          echo "zip_entries=${entries}"
+          echo "verification_python_scripts=${verifiers}"
+          echo "inner_zip_sha256=${sha}"
+          echo "entries=${entries}" >> "$GITHUB_OUTPUT"
+          echo "verifiers=${verifiers}" >> "$GITHUB_OUTPUT"
+          echo "sha=${sha}" >> "$GITHUB_OUTPUT"
+          echo "source_head=${source_head}" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Navior-stokes-hypothesis-AI-W5-E48
+          path: Navior-stokes-hypothesis-AI-W5-E48.zip
+          retention-days: 90
+          if-no-files-found: error
+      - name: Commit successful package provenance
+        env:
+          SOURCE_HEAD: ${{ steps.package.outputs.source_head }}
+          ENTRIES: ${{ steps.package.outputs.entries }}
+          VERIFIERS: ${{ steps.package.outputs.verifiers }}
+          ZIP_SHA: ${{ steps.package.outputs.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --rebase origin main
+          cat > verification/W5_E48_package_result.txt <<EOF
+          W5_E48_PACKAGE=PASS
+          source_head=${SOURCE_HEAD}
+          workflow_run_id=${GITHUB_RUN_ID}
+          workflow_run_attempt=${GITHUB_RUN_ATTEMPT}
+          verified_full_suite_run=32100503157
+          verified_full_suite_head=be7ed7c80a78ac270558445580ed6d7bee9c3dae
+          r47_specific_run=32099072580
+          r48_specific_run=32100395344
+          zip_entries=${ENTRIES}
+          verification_python_scripts=${VERIFIERS}
+          inner_zip_sha256=${ZIP_SHA}
+          scope=PUBLIC_SAFE_VERIFIED_PARTIALS_NOT_GLOBAL_REGULARITY
+          EOF
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add verification/W5_E48_package_result.txt
+          git commit -m 'Record W5 E48 package provenance'
+          git push origin HEAD:main
