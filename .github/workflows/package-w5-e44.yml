@@ -1,0 +1,111 @@
+name: Package W5 E44 public-safe source
+
+on:
+  push:
+    paths:
+      - '.github/workflows/package-w5-e44.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Create and audit public-safe E44 archive
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_head="$(git rev-parse HEAD)"
+          cat > W5-E44-PACKAGE-MANIFEST.txt <<EOF
+          checkpoint=W5-E44
+          source_head=${source_head}
+          workflow_run_id=${GITHUB_RUN_ID}
+          workflow_run_attempt=${GITHUB_RUN_ATTEMPT}
+          verified_theorem_checker_head=700928a4cd70492708d551d2f95cf98dcf62b0fe
+          verified_full_suite_run=32088968521
+          scope=PUBLIC_SAFE_VERIFIED_PARTIALS_NOT_GLOBAL_REGULARITY
+          EOF
+          zip -qr Navior-stokes-hypothesis-AI-W5-E44.zip \
+            README.md docs research corrections discarded experiments verification checkpoints .github/workflows W5-E44-PACKAGE-MANIFEST.txt \
+            -x '*.sqlite3' '*credentials*' '*credential*' '*secret*' '*token*' '*trust*.json' '*/__pycache__/*' '*.pyc' '*.nbc' '*.nbi'
+          test -s Navior-stokes-hypothesis-AI-W5-E44.zip
+          unzip -t Navior-stokes-hypothesis-AI-W5-E44.zip >/dev/null
+          read entries verifiers <<EOF
+          $(python - <<'PY'
+          import zipfile
+          p='Navior-stokes-hypothesis-AI-W5-E44.zip'
+          with zipfile.ZipFile(p) as z:
+              names=z.namelist()
+          required=[
+              'research/R43_intrinsic_positive_common_work_quantile_scale.md',
+              'research/R44_unit_work_amplitude_center_scale_extraction.md',
+              'discarded/RD021_intrinsic_scale_floors_do_not_force_parabolic_compactness.md',
+              'discarded/RD022_peak_center_does_not_imply_local_energy_atom.md',
+              'verification/check_R43_intrinsic_quantile_scale.py',
+              'verification/fresh_verify_e43_intrinsic_scale_grid.py',
+              'verification/check_R44_unit_work_amplitude_center.py',
+              'verification/fresh_verify_e44_amplitude_d3_grid.py',
+              'verification/check_RD021_intrinsic_scale_parabolic_countermodels.py',
+              'verification/check_RD022_peak_center_local_energy_countermodel.py',
+              'verification/W5_E44_full_suite_result.txt',
+              'verification/W5_E44_world_gate_result.json',
+              'checkpoints/W5-E44-SEMANTIC-LEDGER.md',
+              'W5-E44-PACKAGE-MANIFEST.txt',
+          ]
+          missing=[x for x in required if x not in names]
+          if missing:
+              raise SystemExit(f'missing required E44 files: {missing}')
+          py=[n for n in names if n.startswith('verification/') and n.endswith('.py')]
+          if len(py)!=61:
+              raise SystemExit(f'expected 61 verification scripts, got {len(py)}')
+          print(len(names),len(py))
+          PY
+          )
+          EOF
+          sha="$(sha256sum Navior-stokes-hypothesis-AI-W5-E44.zip | awk '{print $1}')"
+          echo "zip_entries=${entries}"
+          echo "verification_python_scripts=${verifiers}"
+          echo "inner_zip_sha256=${sha}"
+          echo "entries=${entries}" >> "$GITHUB_OUTPUT"
+          echo "verifiers=${verifiers}" >> "$GITHUB_OUTPUT"
+          echo "sha=${sha}" >> "$GITHUB_OUTPUT"
+          echo "source_head=${source_head}" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Navior-stokes-hypothesis-AI-W5-E44
+          path: Navior-stokes-hypothesis-AI-W5-E44.zip
+          retention-days: 90
+          if-no-files-found: error
+      - name: Commit successful package provenance
+        env:
+          SOURCE_HEAD: ${{ steps.package.outputs.source_head }}
+          ENTRIES: ${{ steps.package.outputs.entries }}
+          VERIFIERS: ${{ steps.package.outputs.verifiers }}
+          ZIP_SHA: ${{ steps.package.outputs.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > verification/W5_E44_package_result.txt <<EOF
+          W5_E44_PACKAGE=PASS
+          source_head=${SOURCE_HEAD}
+          workflow_run_id=${GITHUB_RUN_ID}
+          workflow_run_attempt=${GITHUB_RUN_ATTEMPT}
+          verified_theorem_checker_head=700928a4cd70492708d551d2f95cf98dcf62b0fe
+          verified_full_suite_run=32088968521
+          zip_entries=${ENTRIES}
+          verification_python_scripts=${VERIFIERS}
+          inner_zip_sha256=${ZIP_SHA}
+          scope=PUBLIC_SAFE_VERIFIED_PARTIALS_NOT_GLOBAL_REGULARITY
+          EOF
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add verification/W5_E44_package_result.txt
+          git commit -m 'Record W5 E44 package provenance'
+          git push origin HEAD:main
