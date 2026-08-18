@@ -33,7 +33,7 @@ jobs:
           echo "$p"
           echo "$f"
           echo "$d"
-          grep -q 'R48_PRIMARY_PASS checks=1320000' <<<"$p"
+          grep -q 'R48_PRIMARY_PASS checks=1390000' <<<"$p"
           grep -q 'R48_FRESH_PASS checks=130000' <<<"$f"
           grep -q 'RD026_PASS checks=119928' <<<"$d"
           {
