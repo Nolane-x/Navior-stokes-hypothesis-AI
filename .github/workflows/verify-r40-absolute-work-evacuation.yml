@@ -6,6 +6,7 @@ on:
       - 'research/R40_strong_finite_catalog_absolute_work_evacuation.md'
       - 'verification/check_R40_absolute_work_evacuation.py'
       - 'verification/fresh_verify_e40_R40_absolute_work.py'
+      - 'verification/fresh_verify_e40_R40_exact_rational.py'
       - '.github/workflows/verify-r40-absolute-work-evacuation.yml'
   workflow_dispatch:
 
@@ -27,3 +28,5 @@ jobs:
         run: python verification/check_R40_absolute_work_evacuation.py
       - name: Verify R40 fresh context
         run: python verification/fresh_verify_e40_R40_absolute_work.py
+      - name: Verify R39-R40 exact rational
+        run: python verification/fresh_verify_e40_R40_exact_rational.py
