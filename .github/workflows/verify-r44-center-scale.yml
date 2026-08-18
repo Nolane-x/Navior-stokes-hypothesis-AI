@@ -1,0 +1,29 @@
+name: Verify R44 unit-work center-scale extraction
+
+on:
+  push:
+    paths:
+      - 'research/R44_unit_work_amplitude_center_scale_extraction.md'
+      - 'verification/check_R44_unit_work_amplitude_center.py'
+      - 'verification/fresh_verify_e44_amplitude_d3_grid.py'
+      - '.github/workflows/verify-r44-center-scale.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r44:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependency
+        run: python -m pip install --upgrade numpy
+      - name: R44 budget/extraction certificate
+        run: python verification/check_R44_unit_work_amplitude_center.py
+      - name: Fresh R44 physical-grid reconstruction
+        run: python verification/fresh_verify_e44_amplitude_d3_grid.py
