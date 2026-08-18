@@ -1,0 +1,67 @@
+name: Verify R47 last-exit critical bursts
+
+on:
+  push:
+    paths:
+      - '.github/workflows/verify-r47-last-exit-critical-bursts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify-r47:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependencies
+        run: python -m pip install --upgrade numpy
+      - name: Run R47 and RD025 certificates
+        id: verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          p="$(python verification/check_R47_last_exit_critical_bursts.py)"
+          f="$(python verification/fresh_verify_e47_last_exit_and_Z.py)"
+          d="$(python verification/check_RD025_per_burst_not_summability.py)"
+          echo "$p"
+          echo "$f"
+          echo "$d"
+          grep -q 'R47_PRIMARY_PASS checks=309094' <<<"$p"
+          grep -q 'R47_FRESH_PASS checks=231340' <<<"$f"
+          grep -q 'RD025_PASS checks=30302' <<<"$d"
+          {
+            echo "primary=$p"
+            echo "fresh=$f"
+            echo "rd025=$d"
+          } >> "$GITHUB_OUTPUT"
+      - name: Commit successful R47 gate record
+        env:
+          PRIMARY: ${{ steps.verify.outputs.primary }}
+          FRESH: ${{ steps.verify.outputs.fresh }}
+          RD025: ${{ steps.verify.outputs.rd025 }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_head="$(git rev-parse HEAD)"
+          cat > verification/R47_gate_result.txt <<EOF
+          R47_GATE=PASS
+          source_head=${source_head}
+          workflow_run_id=${GITHUB_RUN_ID}
+          workflow_run_attempt=${GITHUB_RUN_ATTEMPT}
+          ${PRIMARY}
+          ${FRESH}
+          ${RD025}
+          scope=VERIFIED_PARTIAL_LAST_EXIT_CRITICAL_BURSTS_NOT_GLOBAL_REGULARITY
+          EOF
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add verification/R47_gate_result.txt
+          git commit -m 'Record R47 last-exit critical-burst verification pass'
+          git push origin HEAD:main
