@@ -1,0 +1,38 @@
+{
+  "milestone": "W5-E46",
+  "status": "NONCONVERGED_PARTIALS_ONLY",
+  "runtime": "Nolane World 0.6.0 source-resident",
+  "world_id": "world5_20d12077702c0290f6e2",
+  "research_session_id": "research_df9d394fb13dd9672f",
+  "verified_counterexample_id": "cx_6d8b8bddf945352c82",
+  "epistemic_debt_id": "debt_ea0489eace6a5a9978",
+  "critical_unknowns": 1,
+  "quality": {
+    "correctness": 0.97,
+    "evidence": 0.96,
+    "robustness": 0.945,
+    "verification": 0.975
+  },
+  "fresh_verifications": 1,
+  "gate": {
+    "passed": false,
+    "score": 0.2142857142857143,
+    "blockers": [
+      "trusted active residency insufficient",
+      "independent attested compute insufficient",
+      "cognitive VM program insufficiently executed",
+      "critical unknowns unresolved by trusted evidence",
+      "independent fresh verification insufficient",
+      "independent challenger evidence insufficient",
+      "verified robust/counterfactual worlds insufficient",
+      "verified material representation diversity insufficient",
+      "validated information gain insufficient",
+      "trusted assessment says material value-of-thought remains",
+      "proof obligations remain open"
+    ]
+  },
+  "research_closure": "blocked",
+  "source_scope": "Albritton-Barker arXiv:1811.00507v2 Theorems 1.1/1.2 are imported only after internal identification of an interior singular point; no script is represented as reproving those theorems.",
+  "canonical_frontier": "Ancient-object existence is source-backed once the R46 work-linked singular point is identified. Remaining load-bearing unknown: align/transfer R37-R46 productive-work scales and geometry into a PDE-compact ancient blow-up normalization, or bypass by many-body depletion.",
+  "scope": "WORLD_GOVERNANCE_DIAGNOSTIC_NOT_MATHEMATICAL_COMPLETION_PERCENTAGE"
+}
