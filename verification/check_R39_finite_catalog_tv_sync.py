@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Structural verifier for R39 finite-catalog spacetime total-variation synchronization.
 
-Scope: exact P/Q mode algebra plus finite-catalog/extraction logic.  This is not a
-continuum global-regularity certificate.
+Scope: exact P/Q mode algebra plus finite-catalog/extraction/product-measure logic.
+This is not a continuum global-regularity certificate.
 """
 import math
 import random
@@ -50,7 +50,7 @@ def main():
         assert np.linalg.norm(P + Q - np.eye(3)) < TOL
         checks += 3
 
-    # Synthetic spacetime coefficient bound.  If every |d_k(t)| <= B*w(t),
+    # Synthetic spacetime coefficient bound. If every |d_k(t)| <= B*w(t),
     # then int sum_F |d_k| <= |F| B int w <= |F| B sqrt(|I| q).
     for _ in range(3000):
         m = prng.randint(1, 300)
@@ -71,13 +71,12 @@ def main():
 
     # Growing catalogs can be synchronized no matter how fast |F_n| grows,
     # because the extraction may move farther toward T* for each finite n.
-    # Use delta=q=x as a synthetic tail model, so sqrt(delta*q)=x.
     for n in range(1, 35):
         m = 10 ** min(n, 12)
         eta = 10.0 ** (-n / 2)
         C = 1.7
         E = 2.3
-        x = eta / (4 * C * m * E**3)
+        x = eta / (4 * C * m * E**3)  # synthetic delta=q=x
         bound = C * m * E**3 * x
         assert x > 0.0
         assert bound <= eta / 4 * (1 + 1e-12)
@@ -98,6 +97,36 @@ def main():
         assert grouped <= tv * (1 + 1e-12)
         checks += 1
 
+    # Product-measure consequence: every time x mode subset has discrepancy
+    # bounded by the full L1_t ell1_k total variation.
+    for _ in range(4000):
+        nt = prng.randint(3, 60)
+        m = prng.randint(1, 200)
+        d = rng.normal(size=(nt, m))
+        d *= 10 ** prng.uniform(-9, -2) / max(1.0, np.sum(np.abs(d)))
+        tv = float(np.sum(np.abs(d)))
+        tmask = rng.random(nt) > rng.uniform(0.1, 0.9)
+        kmask = rng.random(m) > rng.uniform(0.1, 0.9)
+        subset = abs(float(np.sum(d[np.ix_(tmask, kmask)])))
+        assert subset <= tv * (1 + 1e-12)
+        checks += 1
+
+    # Jordan-part contraction: positive and negative productive-work measures
+    # are 1-Lipschitz under pointwise difference.
+    for _ in range(5000):
+        shape = (prng.randint(2, 40), prng.randint(1, 100))
+        a = rng.normal(size=shape)
+        b = rng.normal(size=shape)
+        diff = float(np.sum(np.abs(a - b)))
+        pos = float(np.sum(np.abs(np.maximum(a, 0) - np.maximum(b, 0))))
+        neg = float(np.sum(np.abs(np.maximum(-a, 0) - np.maximum(-b, 0))))
+        assert pos <= diff * (1 + 1e-12)
+        assert neg <= diff * (1 + 1e-12)
+        c = (a + b) / 2
+        assert float(np.sum(np.abs(a - c))) <= diff / 2 * (1 + 1e-12)
+        assert float(np.sum(np.abs(b - c))) <= diff / 2 * (1 + 1e-12)
+        checks += 4
+
     # One-tail-atom compactification: resolved ell1 mismatch plus the exterior
     # aggregate mismatch bounds the total variation of the coarsened measure.
     for _ in range(3000):
@@ -111,8 +140,8 @@ def main():
         assert tv <= eta + eps + 1e-15
         checks += 1
 
-    print(f"PASS R39 finite-catalog TV synchronization checks={checks} maxerr={maxerr:.3e}")
-    print("SCOPE: exact mode algebra and finite-catalog extraction logic only; NOT global regularity")
+    print(f"PASS R39 finite-catalog/product-measure TV synchronization checks={checks} maxerr={maxerr:.3e}")
+    print("SCOPE: exact mode algebra and finite-catalog extraction/Jordan logic only; NOT global regularity")
 
 
 if __name__ == "__main__":
