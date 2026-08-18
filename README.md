@@ -1,55 +1,62 @@
 # Navier–Stokes Hypothesis AI
 
-A falsification-first, machine-auditable research program for the 3D incompressible Navier–Stokes Millennium Prize Problem, orchestrated with Nolane World at depth W5.
+A falsification-first, machine-auditable research program for the periodic 3D incompressible Navier–Stokes Millennium Prize Problem, orchestrated with Nolane World at depth W5.
 
 ## Status
 
-**NOT SOLVED.** This repository contains verified partial structural theorems, route guards/no-gos, primary-source theorem interfaces, independent reconstructions and reproducible certificates. None is a Clay solution.
+**NOT SOLVED.** This repository contains verified partial structural theorems, explicit route guards/no-gos, primary-source theorem interfaces, independent reconstructions and reproducible certificates. None is a Clay solution.
 
 Primary target: Clay statement **(B)** — global existence and smoothness on `R^3/Z^3` for every smooth divergence-free periodic initial velocity and zero forcing.
 
 Official problem description: https://www.claymath.org/wp-content/uploads/2022/06/navierstokes.pdf
 
-## Current checkpoint — W5-E46
+## Current checkpoint — W5-E48
 
-Canonical ledger:
+Canonical semantic ledger:
 
-> `checkpoints/W5-E46-SEMANTIC-LEDGER.md`
+> `checkpoints/W5-E48-SEMANTIC-LEDGER.md`
 
-Canonical aggregate verification:
+Final repository-wide verification:
 
 ```text
-workflow run: 32094820170
-verified_head: 961be1b878eacd69b81e72f495ea29c21dbc9fc7
-verification_scripts=67
+workflow run: 32100503157
+verified_head: be7ed7c80a78ac270558445580ed6d7bee9c3dae
+verification_scripts=74
 shards=8
-W5_E46_FULL_SUITE=PASS
+shard_counts=10,10,9,9,9,9,9,9
+W5_E48_FULL_SUITE=PASS
 scope=PARTIAL_CERTIFICATES_ONLY_NOT_GLOBAL_REGULARITY
 ```
 
-Specific R46 gate:
+Dedicated gates:
 
 ```text
-workflow run: 32094667211
-R46_PRIMARY_PASS checks=300095
-R46_FRESH_GRID_PASS checks=220
-RD024_PASS checks=1802
-external_bridge=PRIMARY_SOURCE_SCOPE_PINNED_NOT_REPROVED_BY_SCRIPT
+R47 run: 32099072580
+R47_PRIMARY_PASS checks=309094
+R47_FRESH_PASS checks=231340
+RD025_PASS checks=30302
+
+R48/C004 run: 32100395344
+R48_PRIMARY_PASS checks=1390000
+R48_FRESH_PASS checks=130000
+RD026_PASS checks=119928
 ```
+
+RD027 adds an independent smooth divergence-free spatial-fragmentation route guard and is included in the final 74-certificate aggregate.
 
 Fresh Nolane World 0.6 W5:
 
-> `world5_20d12077702c0290f6e2`
+> `world4_cabfca04208f494d`
 
-The World gate **FAILED intentionally** with `critical_unknowns=1`; public-safe result:
+Its final public-safe gate is
 
-> `verification/W5_E46_world_gate_result.json`.
+> `verification/W5_E48_world_gate_result.json`.
 
-World scores are research-governance diagnostics, not mathematical completion percentages.
+The gate **FAILED** with `critical_unknowns=1`; no unknown, active-residency field or value-of-thought field was manipulated to force convergence. World scores are research-governance diagnostics, not percentages of the Millennium Problem solved.
 
 ## Proof spine — compressed
 
-The project works in the canonical zero-mean Galilean frame. Let
+Work in the canonical zero-mean Galilean frame and set
 
 ```text
 L=omega×u,
@@ -57,192 +64,152 @@ G=|u|u,
 W_3=<QL,QG>=-<PL,PG>.
 ```
 
-### R01–R25: isolate the physical endpoint obstruction
+### R01–R25 — isolate the physical endpoint obstruction
 
-The early spine derives the exact critical `L^3` balance, removes several false coercivity routes, identifies the Lamb/pressure obstruction, and proves that any surviving endpoint mechanism must escape every fixed output Fourier cutoff. R20 proves that genuine high Lamb output requires actual high-frequency velocity input. R21–R25 clean pressure-level-set and transported-speed geometry and remove fixed-output pressure work as a blow-up mechanism.
+The early spine derives the exact critical `L^3` balance, falsifies several coercive shortcuts, identifies the Lamb/pressure obstruction and proves that any surviving endpoint mechanism must escape every fixed output Fourier cutoff. R20 forces genuine high-frequency velocity input behind physical Lamb UV. R21–R25 clean the pressure/transported-speed representation and eliminate fixed-output pressure work as the terminal mechanism.
 
-### R26–R38: couple the Helmholtz channels and expose the common mode
+### R26–R38 — balanced Helmholtz common mode and helical geometry
 
-R27 introduces balanced P/Q action; R28–R34 force productive work into shrinking ultraviolet terminal packets. R37 corrects the strategy from “make P/Q mismatch small” to “control the common productive mode” and derives exact helical pair geometry. Same-spin equal-shell interactions vanish and several near-degenerate pair sectors are depleted, but pairwise cancellation does not automatically sum in a many-body field. R38 synchronizes productive work across expanding cutoff hierarchies and signed shells.
+R27 couples the solenoidal and Bernoulli channels through a balanced action. R28–R34 force productive work into shrinking ultraviolet terminal packets. R37 identifies the common productive mode and derives exact helical P/Q pair geometry; same-spin equal-shell interactions vanish and several near-degenerate sectors are depleted. R38 synchronizes cumulative and signed-shell pressure work across an expanding cutoff hierarchy. Pairwise depletion still does not automatically sum through a many-body nonlinear field.
 
-### R39–R42: normalized spectrally high-dimensional bursts
+### R39–R46 — unit bursts, intrinsic scales and a singular-point/ancient bridge
 
-R39 upgrades resolved P/Q synchronization to spacetime total variation. R40 proves resolved **absolute** work evacuates every prescribed growing finite catalog. R41 extracts actual-trajectory unit common-work bursts with shrinking duration and vanishing unweighted enstrophy cost. R42 proves that a fixed fraction of a unit productive burst requires an exploding number of output modes.
-
-### R43–R45: productive frequency is squeezed from below and above
-
-R43 gives intrinsic positive-work quantile radii `R_theta` with critical-homogeneous lower floors. R44 attaches a diverging velocity center to parent burst packets.
-
-R45/C003 then proves the full signed common-work tail has an exact `1/R` upper scale. For a unit burst `J`, with integrated output coefficients `b_k(J)`, define
+R39 upgrades resolved synchronization to spacetime total variation. R40 proves resolved absolute work evacuates every prescribed growing finite catalog. R41 extracts actual-trajectory unit common-work bursts; R42 forces productive-mode multiplicity to diverge. R43 supplies intrinsic positive-work quantile radii; R45/C003 gives an absolute `1/R` common-work tail. R46 replaces a supremum-only bound by the spatially local density
 
 ```text
-Lambda_J=∫_J ||u(t)||_infinity^2 ||omega(t)||_2^2 dt.
+X(t)=∫|u|^2|grad u|^2 dx,
+Sigma_J=sqrt(2)∫_J X(t)dt,
+T_J(R)<=Sigma_J/R.
 ```
 
-Then
+R46 selects work-linked high-amplitude points converging to a genuine singular spatial point. A pinned primary-literature interface then supplies the standard interior-singularity / ancient-solution blow-up framework. The external theorem is cited, not reproved by project scripts.
+
+## E48 advance
+
+### R47 — last-exit unit bursts with a uniform critical PDE budget
+
+R41 first-hit bursts can hide deep signed-work backtracking. R47 replaces them by last-exit / first-hit intervals. For every prefix of an R47 burst,
 
 ```text
-T_J(R):=sum_(|k|>R)|b_k(J)| <= Lambda_J/R,
-L0 <= Lambda_J,
-R_theta <= Lambda_J/(1-theta).
+0 <= ∫ C_L <= 1,
+-eps <= ∫ W_3 <= 1+eps.
 ```
 
-Each unit burst therefore has its own diverging amplitude center. RD023 shows high-frequency tightness at this scale still does not imply non-collapse toward zero normalized frequency.
+After fixing a terminal start time, terminal productive-work divergence permits the number of units `N` to be chosen larger than `||u(a)||_3^3`. The exact `L^3` balance and simultaneous Markov selection then produce a positive-density subfamily satisfying
 
-## R46 — spatially local work scale
-
-E46 replaces the supremum-based tail control by a spatially local density.
+```text
+|J| -> 0,
+q_J=∫_J||omega||_2^2dt -> 0,
+∫_J D_3 dt <= 28/(3nu).
+```
 
 For
 
 ```text
-X(t)=∫_(T^3)|u|^2|grad u|^2 dx,
+Z=|u|^(1/2)u,
 ```
 
-Parseval and the pointwise estimates
+direct differentiation gives
 
 ```text
-|omega|^2 <= 2|grad u|^2,
-|grad(|u|u)| <= 2|u||grad u|
+D_3 <= ||grad Z||_2^2 <= (9/8)D_3,
+||Z||_6^2=||u||_9^3.
 ```
 
-give
+Hence these actual productive bursts have a uniform scale-critical `L^3_t L^9_x` bound. RD025 records the indispensable guard: a common `O(1)` critical bound per disjoint burst is not terminal summability or smallness.
+
+### R48 — productive frequency cannot outrun a work-linked amplitude scale
+
+On an R47-good burst define
 
 ```text
-sum_(|k|>R)|c_k(t)| <= sqrt(2) X(t)/R.
+D_J=∫_J D_3dt,
+X_J=∫_J∫|u|^2|grad u|^2dxdt,
+Sigma_J=sqrt(2)X_J,
+B_J=X_J/D_J.
 ```
 
-Define
+Since `|u|^2|grad u|^2 <= |u| d_3`, `B_J<=sup|u|`. The set
 
 ```text
-Sigma_J=sqrt(2)∫_J∫_(T^3)|u|^2|grad u|^2 dxdt.
+H_J={|u|>=B_J/2}
 ```
 
-Then
+carries at least half of `X_J`.
+
+For the R43 positive-work quantile radius `R_theta`, the R46 total-variation tail and R47 diffusion budget imply
 
 ```text
-T_J(R)<=Sigma_J/R,
-Sigma_J>=L0
+R_theta <= Sigma_J/(1-theta),
+R_theta/B_J <= 28sqrt(2)/[3nu(1-theta)],
+R_theta/sup|u| <= 28sqrt(2)/[3nu(1-theta)].
 ```
 
-on every unit common-work burst.
+Thus the E46/RD024 branch `R_theta/sup|u| -> infinity` is eliminated on the R47-good subfamily.
 
-This forces a genuinely work-linked high-amplitude/gradient set. If
+At a work-linked center, rescaling directly at `r=1/R_theta` gives
 
 ```text
-a_J^2=L0/(2sqrt(2)q_J),
-q_J=∫_J||omega||_2^2dt,
+|v(0,0)| >= 3nu(1-theta)/(56sqrt(2)).
 ```
 
-then the set `H_J={|u|>=a_J}` carries at least
+### C004 — nontriviality is measure-valued
+
+R48 in fact yields
 
 ```text
-L0/(2sqrt(2))
+X_J/R_theta >= (1-theta)/sqrt(2).
 ```
 
-of `∫|u|^2|grad u|^2`. Hence every terminal unit burst contains a work-linked point `(x_J,t_J)` with
+Therefore the productive-scale rescaling carries a fixed positive amount of the scale-invariant weighted-gradient measure
 
 ```text
-|u(x_J,t_J)| >= sqrt[L0/(2sqrt(2)q_J)] -> infinity.
+∫|v|^2|grad v|^2 dyds,
 ```
 
-Compactness of the torus gives a subsequence `x_J->x*`. A regular parabolic neighborhood of `(x*,T*)` would bound `u`, contradicting the selected points. Therefore `(x*,T*)` is an actual interior singular point under the finite-time singularity hypothesis.
+and at least half of that lower bound lies on a set where the normalized velocity is bounded away from zero.
 
-## R46 primary-source bridge — the ancient object already exists if a singularity exists
+This is stronger than a single nonzero point, but it is still a **global** statement on an expanding rescaled torus.
 
-The source interface is pinned in
+### RD026 / RD027 — the two compactness gaps that remain
 
-> `sources/R46_albritton_barker_interior_singularity_ancient_bridge.md`.
-
-Albritton–Barker, arXiv:1811.00507v2, proves for the relevant interior suitable-solution setting that:
-
-- the local `L^3` norm diverges in every fixed neighborhood of an interior singular point (Theorem 1.1);
-- an interior singularity generates a non-trivial mild bounded ancient Navier–Stokes solution on `R^3` as a blow-up limit (Theorem 1.2).
-
-The periodic smooth preterminal solution restricted to a small Euclidean chart around `x*` fits the interior suitable-solution interface; positive constant viscosity is normalized deterministically.
-
-**This repository does not claim to reprove those theorems.** The external result changes the internal frontier: existence of *some* non-trivial ancient blow-up object is no longer treated as the missing theorem once the R46 singular point is identified.
-
-## RD024 — the decisive gap is transfer/alignment
-
-Existence of an ancient object does not imply that the project-specific productive modes survive its normalization.
-
-Define the dimensionless ratio
+RD026 shows that all scalar constraints through R48/C004 permit both
 
 ```text
-Chi_theta=R_theta/A_J.
+R_theta^2 |J| -> 0
 ```
 
-RD024 constructs two abstract scalar families compatible with the current R43–R46 envelopes, one with
+and
 
 ```text
-Chi_theta -> 0
+R_theta^2 |J| -> infinity.
 ```
 
-and one with
+So parabolic time alignment must come from genuine orbit dynamics.
 
-```text
-Chi_theta -> infinity.
-```
+RD027 constructs smooth divergence-free fragmented fields on expanding domains with fixed global weighted-gradient action, bounded `D_3` and a nonzero center, while every fixed ball captures vanishing weighted mass. Thus C004 global nontriviality is not local spatial tightness.
 
-These are not Navier–Stokes trajectories. They are route guards showing that a genuine PDE theorem is needed to align productive Fourier scales with an amplitude/ancient blow-up scale.
+Neither RD026 nor RD027 is a Navier–Stokes blow-up construction. They are route guards against invalid compactness shortcuts.
 
-## Exact live frontier after E46
+## Canonical post-E48 frontier
 
-A hypothetical finite-time singularity must now support two lineages simultaneously.
+The hypothetical singular mechanism has now been reduced to actual normalized bursts carrying simultaneously:
 
-**Productive-work lineage:**
+- exact unit productive common work with bounded prefix drawdown;
+- vanishing duration and unweighted enstrophy cost;
+- uniformly bounded critical `D_3` action;
+- uniformly bounded critical `L^3_tL^9_x` action;
+- one-sided productive-frequency/amplitude alignment;
+- nonzero velocity at the productive scale;
+- nonzero scale-invariant weighted-gradient mass on a nonzero-amplitude set;
+- the earlier dual-channel synchronization and helical geometry.
 
-- unit common high-pass work;
-- synchronized Helmholtz representations;
-- resolved absolute-work evacuation;
-- exploding productive output multiplicity;
-- R37 helical pair restrictions;
-- R43 lower productive radius;
-- R45 signed-work upper frequency;
-- R46 spatially local amplitude-weighted gradient mass.
+The remaining load-bearing theorem is:
 
-**Singularity lineage:**
+> **Use actual Navier–Stokes dynamics to prevent both RD026 temporal mismatch and RD027 spatial fragmentation / normalized-IR escape, obtaining local parabolic compactness that preserves a nonzero piece of productive common-work/helical structure, or derive a contradiction before taking a limit.**
 
-- a work-linked center subsequence reaches a genuine singular point;
-- local `L^3` diverges around that point by the imported theorem;
-- a non-trivial mild bounded ancient blow-up solution exists by the imported theorem.
+Leading interfaces are Duhamel/heat propagation at the productive/work scale, local-energy propagation tied to the work density, concentration-compactness/rigidity, or a true many-body depletion theorem. Another scalar envelope alone is not enough.
 
-The remaining load-bearing theorem must **connect these lineages**. The highest-value routes are:
+## Scope
 
-1. prove `R_theta`, `Sigma_J`/`Lambda_J` and an amplitude/ancient blow-up scale remain comparable on a subsequence;
-2. prove a fixed positive fraction of unit common work and R37 helical structure survives an appropriate PDE-compact rescaling;
-3. derive a Liouville/backward-uniqueness/Oseen contradiction for the transferred structured ancient solution;
-4. bypass the limit with a many-body depletion theorem.
-
-Another finite-catalog synchronization estimate or energy-only scaling argument would not materially change the project.
-
-## Verification and governance
-
-Canonical records:
-
-```text
-verification/R46_gate_result.txt
-verification/W5_E46_full_suite_result.txt
-verification/W5_E46_world_gate_result.json
-checkpoints/W5-E46-SEMANTIC-LEDGER.md
-```
-
-The protocol is:
-
-```text
-candidate
-→ exact domain/scope
-→ adversarial falsifier
-→ independent reconstruction
-→ source-interface audit when importing literature
-→ repository-wide replay
-→ Nolane World nonconvergence/convergence gate
-→ public-safe package
-```
-
-No certificate, World score, finite computation, imported partial theorem, or ancient-solution existence theorem is interpreted as a proof of global regularity.
-
-## Current conclusion
-
-**W5-E46 is a verified partial checkpoint, not a solution.** The program has moved from a vague ultraviolet pressure obstruction to a work-linked spatial singular point plus an established ancient blow-up object. The remaining problem is no longer “find an object to compactify”; it is to **transfer the productive common-work/helical architecture into a PDE-compact ancient limit and rule that structured limit out**, or prove the bursts impossible before taking a limit.
+Every theorem and checker in this repository keeps an explicit scope statement. Finite-mode, symbolic, randomized and numerical certificates verify their declared identities, inequalities, countermodels or reconstructions only. **W5-E48 is a verified partial research checkpoint, not a proof of global regularity.**
