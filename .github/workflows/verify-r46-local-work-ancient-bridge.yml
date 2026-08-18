@@ -1,0 +1,66 @@
+name: Verify R46 local-work and ancient-bridge scope
+
+on:
+  push:
+    paths:
+      - 'research/R46_spatially_local_work_scale_and_singularity_ancient_bridge.md'
+      - 'sources/R46_albritton_barker_interior_singularity_ancient_bridge.md'
+      - 'discarded/RD024_ancient_amplitude_scale_not_aligned_with_productive_work_scale.md'
+      - 'verification/check_R46_local_weighted_work_scale.py'
+      - 'verification/fresh_verify_e46_local_work_grid.py'
+      - 'verification/check_RD024_amplitude_productive_scale_misalignment.py'
+      - '.github/workflows/verify-r46-local-work-ancient-bridge.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify-r46:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verifier dependency
+        run: python -m pip install --upgrade numpy
+      - name: Primary internal R46 certificate
+        run: python verification/check_R46_local_weighted_work_scale.py | tee /tmp/r46-primary.txt
+      - name: Fresh physical-grid R46 reconstruction
+        run: python verification/fresh_verify_e46_local_work_grid.py | tee /tmp/r46-fresh.txt
+      - name: RD024 amplitude/productive-scale route guard
+        run: python verification/check_RD024_amplitude_productive_scale_misalignment.py | tee /tmp/rd024.txt
+      - name: Audit external theorem interface without pretending to reprove it
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'arXiv:1811.00507' sources/R46_albritton_barker_interior_singularity_ancient_bridge.md
+          grep -q 'Theorem 1.1' sources/R46_albritton_barker_interior_singularity_ancient_bridge.md
+          grep -q 'Theorem 1.2' sources/R46_albritton_barker_interior_singularity_ancient_bridge.md
+          grep -q 'not claimed as an internally reproved theorem' sources/R46_albritton_barker_interior_singularity_ancient_bridge.md
+      - name: Self-report successful R46 gate
+        env:
+          SOURCE_HEAD: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo 'R46_GATE=PASS'
+            echo "source_head=$SOURCE_HEAD"
+            echo "workflow_run_id=$GITHUB_RUN_ID"
+            echo "workflow_run_attempt=$GITHUB_RUN_ATTEMPT"
+            echo "$(tail -n 1 /tmp/r46-primary.txt)"
+            echo "$(tail -n 1 /tmp/r46-fresh.txt)"
+            echo "$(tail -n 1 /tmp/rd024.txt)"
+            echo 'external_bridge=PRIMARY_SOURCE_SCOPE_PINNED_NOT_REPROVED_BY_SCRIPT'
+            echo 'scope=VERIFIED_PARTIAL_LOCAL_WORK_AND_BRIDGE_LOGIC_NOT_GLOBAL_REGULARITY'
+          } > verification/R46_gate_result.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add verification/R46_gate_result.txt
+          git commit -m 'Record R46 local-work bridge verification pass'
+          git push origin HEAD:main
